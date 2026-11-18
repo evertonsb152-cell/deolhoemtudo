@@ -41,7 +41,6 @@
     </script>
 
     <style>
-        /* Barra de rolagem limpa para menus horizontais */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -50,7 +49,6 @@
             scrollbar-width: none;
         }
 
-        /* Animação do equalizador de áudio no player */
         @keyframes eqBar {
             0%, 100% { height: 22%; }
             50% { height: 100%; }
@@ -68,7 +66,6 @@
         .eq-bar:nth-child(4) { animation-delay: 0.15s; }
         .eq-bar:nth-child(5) { animation-delay: 0.35s; }
 
-        /* Letreiro deslizante contínuo de Plantão 87,9 */
         @keyframes marquee {
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
@@ -76,7 +73,7 @@
         .animate-marquee {
             display: flex;
             width: max-content;
-            animation: marquee 38s linear infinite;
+            animation: marquee 48s linear infinite;
         }
         .animate-marquee:hover {
             animation-play-state: paused;
@@ -85,9 +82,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-radioRed-600 selection:text-white flex flex-col min-h-screen">
 
-    <!-- ===================================================================== -->
-    <!-- 1. BARRA SUPERIOR: HORÁRIO DO PROGRAMA, EMISSORA & CONTATOS OFICIAIS  -->
-    <!-- ===================================================================== -->
+    <!-- 1. BARRA SUPERIOR -->
     <div class="bg-navy-950 text-slate-300 text-xs border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-2">
             <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -117,19 +112,15 @@
         </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- 2. PLAYER DE RÁDIO AO VIVO FIXO NO TOPO                               -->
-    <!-- ===================================================================== -->
+    <!-- 2. PLAYER DE RÁDIO & TRANSMISSÃO FACEBOOK LIVE FIXO NO TOPO -->
     <div class="bg-gradient-to-r from-navy-900 via-navy-950 to-navy-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
             
-            <!-- Botão Play/Pause + Info do Programa -->
             <div class="flex items-center gap-3 min-w-0">
                 <button id="main-play-btn" onclick="toggleRadioStream()" aria-label="Tocar vinheta do estúdio" class="w-10 h-10 rounded-full bg-radioRed-600 hover:bg-radioRed-500 active:scale-95 text-white flex items-center justify-center shadow-md shadow-radioRed-600/30 transition shrink-0">
                     <i id="main-play-icon" class="fa-solid fa-play text-sm ml-0.5"></i>
                 </button>
 
-                <!-- Equalizador animado -->
                 <div id="header-equalizer" class="flex items-end gap-0.5 h-5 w-6 shrink-0" aria-hidden="true">
                     <span class="eq-bar w-1 bg-radioRed-500 rounded-full h-2"></span>
                     <span class="eq-bar w-1 bg-amber-400 rounded-full h-4"></span>
@@ -149,37 +140,38 @@
                         </span>
                     </div>
                     <p id="stream-status-text" class="text-[11px] text-slate-300 truncate mt-0.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-headphones text-radioRed-500"></i>
-                        <span>Clique no Play (áudio estúdio) ou acesse o streaming oficial</span>
+                        <i class="fa-brands fa-facebook text-sky-400"></i>
+                        <span>Assista as Lives e Vídeos do Facebook direto no site ou leia as notícias abaixo</span>
                     </p>
                 </div>
             </div>
 
-            <!-- Controles de Volume + Link Oficial -->
-            <div class="flex items-center gap-3 ml-auto">
-                <div class="hidden sm:flex items-center gap-2 bg-navy-800/80 px-3 py-1.5 rounded-xl border border-slate-700/70">
+            <div class="flex items-center gap-2.5 ml-auto">
+                <div class="hidden md:flex items-center gap-2 bg-navy-800/80 px-3 py-1.5 rounded-xl border border-slate-700/70">
                     <button onclick="toggleMute()" class="text-slate-300 hover:text-white transition" aria-label="Silenciar">
                         <i id="volume-icon" class="fa-solid fa-volume-high text-xs"></i>
                     </button>
-                    <input id="volume-slider" type="range" min="0" max="100" value="80" oninput="changeVolume(this.value)" class="w-20 accent-radioRed-600 cursor-pointer h-1.5 bg-slate-700 rounded-lg">
+                    <input id="volume-slider" type="range" min="0" max="100" value="80" oninput="changeVolume(this.value)" class="w-16 accent-radioRed-600 cursor-pointer h-1.5 bg-slate-700 rounded-lg">
                 </div>
+
+                <button onclick="toggleFacebookLiveBox()" class="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow transition">
+                    <i class="fa-brands fa-facebook text-sm"></i>
+                    <span>LIVE FACEBOOK</span>
+                </button>
 
                 <a href="https://www.fmpantaneira.com.br/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-radioRed-600 hover:bg-radioRed-500 text-white text-xs font-black px-3.5 py-2 rounded-xl shadow transition">
                     <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
-                    <span>AO VIVO 87,9 FM</span>
+                    <span>RÁDIO 87,9</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- 3. CABEÇALHO PRINCIPAL, IDENTIDADE VISUAL & BUSCA                      -->
-    <!-- ===================================================================== -->
+    <!-- 3. CABEÇALHO PRINCIPAL & BUSCA -->
     <header class="bg-navy-900 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 
-                <!-- Marca Jornalística -->
                 <a href="#" onclick="resetFilters(event)" class="flex items-center gap-3.5 group">
                     <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-radioRed-600 to-radioRed-700 flex items-center justify-center shadow-lg shadow-radioRed-600/25 border border-red-400/30 group-hover:scale-105 transition-transform shrink-0">
                         <i class="fa-solid fa-eye text-white text-xl sm:text-2xl"></i>
@@ -196,16 +188,14 @@
                     </div>
                 </a>
 
-                <!-- Barra de Busca + Botão Publicar Notícia -->
                 <div class="flex items-center gap-2.5 w-full md:w-auto">
                     <div class="relative flex-1 sm:w-80">
-                        <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar em Coxim, São Gabriel, CG, BR-163..." class="w-full bg-navy-950 text-white placeholder-slate-400 text-sm rounded-xl pl-10 pr-9 py-2.5 border border-slate-700 focus:outline-none focus:border-radioRed-500 focus:ring-2 focus:ring-radioRed-500/20 transition">
+                        <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar em Campo Grande, Vicentina, Sonora, Coxim..." class="w-full bg-navy-950 text-white placeholder-slate-400 text-sm rounded-xl pl-10 pr-9 py-2.5 border border-slate-700 focus:outline-none focus:border-radioRed-500 focus:ring-2 focus:ring-radioRed-500/20 transition">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                         <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white" aria-label="Limpar busca">
                             <i class="fa-solid fa-xmark text-sm"></i>
                         </button>
                     </div>
-                    <!-- Botão Modo Redação / Publicar Notícia -->
                     <button onclick="openEditorModal()" class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-navy-950 text-xs sm:text-sm font-black px-4 py-2.5 rounded-xl transition shadow-md shrink-0">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <span>Publicar Notícia</span>
@@ -224,11 +214,11 @@
                     <button data-category="Plantão Policial & Acidentes" onclick="filterByCategory('Plantão Policial & Acidentes')" class="cat-btn whitespace-nowrap px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-200 hover:bg-navy-900 hover:text-white transition">
                         <i class="fa-solid fa-triangle-exclamation text-radioRed-400 mr-1.5"></i>Plantão Policial & Acidentes
                     </button>
-                    <button data-category="Agropecuária & Agronegócio" onclick="filterByCategory('Agropecuária & Agronegócio')" class="cat-btn whitespace-nowrap px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-200 hover:bg-navy-900 hover:text-white transition">
-                        <i class="fa-solid fa-wheat-awn text-emerald-400 mr-1.5"></i>Agropecuária & Agronegócio
-                    </button>
                     <button data-category="Cidades & Regional" onclick="filterByCategory('Cidades & Regional')" class="cat-btn whitespace-nowrap px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-200 hover:bg-navy-900 hover:text-white transition">
                         <i class="fa-solid fa-city text-sky-400 mr-1.5"></i>Cidades & Regional
+                    </button>
+                    <button data-category="Agropecuária & Agronegócio" onclick="filterByCategory('Agropecuária & Agronegócio')" class="cat-btn whitespace-nowrap px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-200 hover:bg-navy-900 hover:text-white transition">
+                        <i class="fa-solid fa-wheat-awn text-emerald-400 mr-1.5"></i>Agropecuária & Agronegócio
                     </button>
                     <button data-category="Economia & Finanças" onclick="filterByCategory('Economia & Finanças')" class="cat-btn whitespace-nowrap px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-200 hover:bg-navy-900 hover:text-white transition">
                         <i class="fa-solid fa-chart-line text-amber-400 mr-1.5"></i>Economia & Finanças
@@ -240,7 +230,7 @@
             </div>
         </nav>
 
-        <!-- Barra de Filtro por Cidades do Corredor BR-163 & Norte do MS -->
+        <!-- Barra de Filtro por Cidades do Mato Grosso do Sul -->
         <div class="bg-navy-950/95 border-t border-slate-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar" id="city-nav">
                 <span class="text-[11px] font-black uppercase tracking-wider text-amber-400 shrink-0 mr-1 flex items-center gap-1">
@@ -249,14 +239,23 @@
                 <button data-city="Todas" onclick="filterByCity('Todas')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-bold bg-white text-navy-950 transition">
                     Todas as Cidades
                 </button>
+                <button data-city="Vicentina" onclick="filterByCity('Vicentina')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
+                    Vicentina
+                </button>
+                <button data-city="Campo Grande" onclick="filterByCity('Campo Grande')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
+                    Campo Grande
+                </button>
+                <button data-city="Dourados" onclick="filterByCity('Dourados')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
+                    Dourados
+                </button>
+                <button data-city="Sonora" onclick="filterByCity('Sonora')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
+                    Sonora
+                </button>
                 <button data-city="Coxim" onclick="filterByCity('Coxim')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
                     Coxim
                 </button>
                 <button data-city="São Gabriel do Oeste" onclick="filterByCity('São Gabriel do Oeste')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
                     São Gabriel do Oeste
-                </button>
-                <button data-city="Sonora" onclick="filterByCity('Sonora')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
-                    Sonora
                 </button>
                 <button data-city="Pedro Gomes" onclick="filterByCity('Pedro Gomes')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
                     Pedro Gomes
@@ -270,9 +269,6 @@
                 <button data-city="Camapuã" onclick="filterByCity('Camapuã')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
                     Camapuã (Cabaquan)
                 </button>
-                <button data-city="Campo Grande" onclick="filterByCity('Campo Grande')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
-                    Campo Grande
-                </button>
                 <button data-city="Nacional" onclick="filterByCity('Nacional')" class="city-btn whitespace-nowrap px-2.5 py-1 rounded-md text-xs font-semibold text-slate-300 hover:bg-navy-800 hover:text-white transition">
                     Brasil / Nacional
                 </button>
@@ -280,9 +276,7 @@
         </div>
     </header>
 
-    <!-- ===================================================================== -->
-    <!-- FAIXA DESLIZANTE DE PLANTÃO DE ÚLTIMAS NOTÍCIAS                       -->
-    <!-- ===================================================================== -->
+    <!-- FAIXA DESLIZANTE DE PLANTÃO -->
     <div class="bg-white border-b border-slate-200 shadow-xs overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center gap-3">
             <span class="shrink-0 inline-flex items-center gap-1.5 bg-radioRed-600 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md">
@@ -296,9 +290,7 @@
         </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- CONTEÚDO PRINCIPAL                                                    -->
-    <!-- ===================================================================== -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
 
         <!-- Banner de Filtro Ativo -->
@@ -312,16 +304,16 @@
             </button>
         </div>
 
-        <!-- 4. SEÇÃO HERO: MANCHETE PRINCIPAL + BLOCO SOBRE ADILSON MALAQUIAS & GIRO -->
+        <!-- 4. SEÇÃO HERO: MANCHETE PRINCIPAL + BLOCO SOBRE ADILSON MALAQUIAS & PLANTÃO -->
         <section id="hero-section" class="mb-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
                 <!-- Manchete Principal (7 colunas) -->
-                <article id="hero-main-card" onclick="openArticleModal(1)" class="lg:col-span-7 group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200/80 transition-all duration-300 flex flex-col">
+                <article id="hero-main-card" class="lg:col-span-7 group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-200/80 transition-all duration-300 flex flex-col">
                     <!-- Renderizado via JS -->
                 </article>
 
-                <!-- Coluna Direita: Sobre o Programa & O Radialista Adilson Malaquias + Giro Rápido (5 colunas) -->
+                <!-- Coluna Direita (5 colunas) -->
                 <div class="lg:col-span-5 flex flex-col gap-6">
                     
                     <!-- Bloco Institucional: Sobre o Programa & O Radialista Adilson Malaquias -->
@@ -346,15 +338,14 @@
                             <div>
                                 <h3 class="font-black text-lg text-white leading-tight">Adilson Malaquias</h3>
                                 <p class="text-xs text-slate-300">Apresentador • Programa <strong class="text-amber-400">De Olho em Tudo</strong></p>
-                                <p class="text-[11px] text-slate-400 mt-0.5"><i class="fa-solid fa-location-dot text-radioRed-500 mr-1"></i>Sr. Divino, Coxim - MS • Cobertura BR-163 & MS</p>
+                                <p class="text-[11px] text-slate-400 mt-0.5"><i class="fa-solid fa-location-dot text-radioRed-500 mr-1"></i>Sr. Divino, Coxim - MS • Cobertura Todo MS</p>
                             </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-200 leading-relaxed mb-4 border-l-2 border-radioRed-500 pl-3">
-                            Informação com credibilidade, compromisso com a verdade e a voz da comunidade! Notícias quentes de Coxim, São Gabriel, Sonora, Pedro Gomes, Bandeirantes, Jaraguari, Camapuã e Campo Grande.
+                            Informação com credibilidade, compromisso com a verdade e a voz da comunidade! Clique em qualquer notícia abaixo para ler a reportagem completa e ouvir o boletim.
                         </p>
 
-                        <!-- Botões de Ação Direta do Radialista -->
                         <div class="grid grid-cols-2 gap-2.5">
                             <a href="https://www.fmpantaneira.com.br/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-1.5 bg-radioRed-600 hover:bg-radioRed-500 text-white text-xs font-bold py-2.5 px-3 rounded-xl transition shadow">
                                 <i class="fa-solid fa-play"></i> Ouvir FM 87,9
@@ -365,14 +356,14 @@
                         </div>
                     </div>
 
-                    <!-- Giro Rápido Policial & Regional -->
+                    <!-- Plantão Urgente Lateral -->
                     <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex-1 flex flex-col justify-between">
                         <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
                             <h3 class="font-black text-navy-900 uppercase tracking-wide text-sm flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-radioRed-600 animate-pulse"></span>
-                                Plantão Quente • BR-163 & Agro MS
+                                Plantão Urgente • Campo Grande & MS
                             </h3>
-                            <span class="text-xs font-semibold text-slate-400">Urgente</span>
+                            <span class="text-xs font-semibold text-slate-400">Clique para ler</span>
                         </div>
 
                         <div id="hero-side-list" class="space-y-4">
@@ -384,9 +375,7 @@
             </div>
         </section>
 
-        <!-- ===================================================================== -->
-        <!-- DESTAQUE COMERCIAL ESPECIAL: FOX BARBEARIA (CAMPO GRANDE - MS)        -->
-        <!-- ===================================================================== -->
+        <!-- DESTAQUE COMERCIAL ESPECIAL: FOX BARBEARIA (CAMPO GRANDE - MS) -->
         <section class="mb-9">
             <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-zinc-950 via-neutral-900 to-zinc-950 border-2 border-amber-500/70 shadow-xl">
                 <div class="absolute -right-10 -bottom-10 text-amber-500/10 text-9xl pointer-events-none rotate-12">
@@ -426,7 +415,6 @@
                         </div>
                     </div>
 
-                    <!-- Botões de Ação Direta da Fox Barbearia -->
                     <div class="flex flex-wrap sm:flex-nowrap lg:flex-col gap-2.5 shrink-0">
                         <a href="https://wa.me/5567996241272?text=Ol%C3%A1!%20Vi%20o%20destaque%20da%20Fox%20Barbearia%20(Av.%20Duas%20Vilas,%20354%20-%20Coronel%20Antonino,%20Campo%20Grande)%20no%20programa%20De%20Olho%20em%20Tudo!" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow-md">
                             <i class="fa-brands fa-whatsapp text-sm"></i> Agendar / WhatsApp
@@ -442,10 +430,8 @@
             </div>
         </section>
 
-        <!-- ===================================================================== -->
-        <!-- 5. GRID PRINCIPAL: NOTÍCIAS + SIDEBAR INTERATIVA                      -->
-        <!-- ===================================================================== -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- 5. GRID PRINCIPAL: NOTÍCIAS + SIDEBAR INTERATIVA -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-10">
             
             <!-- Coluna de Notícias (8 colunas) -->
             <div class="lg:col-span-8">
@@ -455,12 +441,12 @@
                             <i class="fa-solid fa-radio text-sm text-radioRed-500"></i>
                         </div>
                         <h2 id="section-title" class="text-xl sm:text-2xl font-black text-navy-900 uppercase tracking-tight">
-                            Últimas Notícias • Região & Brasil
+                            Últimas Notícias • Vicentina, Campo Grande & MS
                         </h2>
                     </div>
                     <div class="flex items-center gap-2">
                         <span id="news-counter" class="text-xs font-bold text-slate-600 bg-slate-200/90 px-3 py-1 rounded-full">
-                            Exibindo 10 reportagens
+                            Exibindo 18 reportagens
                         </span>
                         <button onclick="openEditorModal()" class="text-xs font-bold bg-navy-900 hover:bg-radioRed-600 text-white px-3 py-1.5 rounded-lg transition">
                             <i class="fa-solid fa-plus mr-1"></i> Nova Matéria
@@ -576,7 +562,7 @@
 
                     <form id="quick-listener-form" onsubmit="sendListenerDirect(event)" class="space-y-3 mt-4">
                         <div>
-                            <input type="text" id="ql-name" required placeholder="Seu nome e cidade (Ex: João • Coxim)" class="w-full bg-navy-950 text-white placeholder-slate-400 text-xs px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-radioRed-500">
+                            <input type="text" id="ql-name" required placeholder="Seu nome e cidade (Ex: João • Vicentina)" class="w-full bg-navy-950 text-white placeholder-slate-400 text-xs px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-radioRed-500">
                         </div>
                         <div>
                             <textarea id="ql-message" rows="3" required placeholder="Escreva seu recado, pedido de música ou denúncia do seu bairro..." class="w-full bg-navy-950 text-white placeholder-slate-400 text-xs px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-radioRed-500 resize-none"></textarea>
@@ -601,8 +587,23 @@
                         <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Tempo Real</span>
                     </div>
 
-                    <!-- Clima Coxim & Campo Grande -->
                     <div class="space-y-2.5 mb-4">
+                        <div class="flex items-center justify-between bg-gradient-to-r from-slate-50 to-sky-50 p-3 rounded-xl border border-slate-200/70">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-sky-500/15 text-sky-600 flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-cloud-sun-rain"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-black text-navy-900 leading-none">Campo Grande • 29°C</div>
+                                    <div class="text-[11px] text-slate-500 mt-1">Sol pela manhã, pancadas à tarde</div>
+                                </div>
+                            </div>
+                            <div class="text-right text-[11px]">
+                                <div class="font-bold text-slate-700">Máx: 33°</div>
+                                <div class="text-slate-400">Mín: 21°</div>
+                            </div>
+                        </div>
+
                         <div class="flex items-center justify-between bg-gradient-to-r from-sky-50 to-slate-50 p-3 rounded-xl border border-sky-100">
                             <div class="flex items-center gap-2.5">
                                 <div class="w-9 h-9 rounded-lg bg-amber-400/20 text-amber-500 flex items-center justify-center text-lg">
@@ -618,25 +619,8 @@
                                 <div class="text-slate-400">Mín: 22°</div>
                             </div>
                         </div>
-
-                        <div class="flex items-center justify-between bg-gradient-to-r from-slate-50 to-sky-50 p-3 rounded-xl border border-slate-200/70">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-lg bg-sky-500/15 text-sky-600 flex items-center justify-center text-lg">
-                                    <i class="fa-solid fa-cloud-sun"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-black text-navy-900 leading-none">Campo Grande • 29°C</div>
-                                    <div class="text-[11px] text-slate-500 mt-1">Parcialmente nublado • Capital</div>
-                                </div>
-                            </div>
-                            <div class="text-right text-[11px]">
-                                <div class="font-bold text-slate-700">Máx: 31°</div>
-                                <div class="text-slate-400">Mín: 20°</div>
-                            </div>
-                        </div>
                     </div>
 
-                    <!-- Cotações Agro & Economia -->
                     <div class="grid grid-cols-2 gap-2 text-center">
                         <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60">
                             <span class="text-[10px] font-bold text-slate-400 block uppercase">Boi Gordo MS (@)</span>
@@ -661,33 +645,13 @@
                     </div>
                 </div>
 
-                <!-- Widget 5: Card Lateral Fox Barbearia -->
-                <div class="bg-zinc-950 text-white rounded-2xl p-5 shadow-md border border-amber-500/50">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-amber-400 flex items-center gap-1">
-                            <i class="fa-solid fa-scissors"></i> Comercial • Campo Grande
-                        </span>
-                        <span class="text-[10px] bg-amber-500 text-zinc-950 font-black px-2 py-0.5 rounded">FOX BARBEARIA</span>
-                    </div>
-                    <h4 class="font-black text-base text-white mb-1">Cortes Modernos & Assistência Celular</h4>
-                    <p class="text-xs text-zinc-300 leading-relaxed mb-3">
-                        Degradê, Mid Fade, Taper Fade, Barba e também acessórios e conserto de celulares em Campo Grande!
-                    </p>
-                    <p class="text-[11px] text-amber-300 font-semibold mb-3">
-                        <i class="fa-solid fa-location-dot mr-1"></i> Av. Duas Vilas, 354 – Coronel Antonino, Campo Grande - MS
-                    </p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Av.+Duas+Vilas,+354+-+Coronel+Antonino,+Campo+Grande+-+MS" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-black py-2 rounded-xl transition">
-                        <i class="fa-solid fa-map-pin"></i> Ver no Mapa • Campo Grande
-                    </a>
-                </div>
-
-                <!-- Widget 6: Enquete Interativa do Ouvinte -->
+                <!-- Widget 5: Enquete Interativa do Ouvinte -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80">
                     <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
                         <h3 class="font-black text-navy-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-square-poll-vertical text-radioRed-600 text-sm"></i> Enquete do Programa
                         </h3>
-                        <span id="poll-total-votes" class="text-[11px] font-semibold text-slate-400">1.009 votos</span>
+                        <span id="poll-total-votes" class="text-[11px] font-semibold text-slate-400">1.119 votos</span>
                     </div>
                     <p class="text-xs sm:text-sm font-bold text-navy-900 mb-3">
                         Qual tema deve ter prioridade nesta semana no programa De Olho em Tudo?
@@ -702,15 +666,148 @@
 
             </aside>
         </div>
+
+        <!-- ================================================================= -->
+        <!-- ESTÚDIO AO VIVO & CENTRAL FACEBOOK (LIVES, VÍDEOS, REELS E POSTS) -->
+        <!-- ================================================================= -->
+        <section id="facebook-live-section" class="mb-4">
+            <div class="bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 rounded-2xl border-2 border-blue-500/40 shadow-xl overflow-hidden text-white">
+                <div class="px-5 py-3.5 bg-navy-950/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow">
+                            <i class="fa-brands fa-facebook-f text-base"></i>
+                        </span>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-sm sm:text-base font-black uppercase tracking-wide text-white">
+                                    Estúdio Ao Vivo • Transmissão & Posts do Facebook
+                                </h2>
+                                <span class="inline-flex items-center gap-1 bg-radioRed-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> NO AR
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-300">Adilson Malaquias & Andreia Malaquias • De Olho em Tudo (Seg a Sex, 08h30 às 10h00)</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleFbConfigPanel()" class="inline-flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-navy-950 text-xs font-black px-3 py-1.5 rounded-xl transition">
+                            <i class="fa-solid fa-link"></i> Colar Novo Link
+                        </button>
+                        <button onclick="toggleFacebookLiveBox()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 flex items-center justify-center transition" title="Minimizar/Expandir player">
+                            <i id="fb-collapse-icon" class="fa-solid fa-chevron-up text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Painel rápido para colar o link da transmissão do Facebook -->
+                <div id="fb-config-panel" class="hidden bg-navy-950 px-5 py-4 border-b border-slate-800">
+                    <form onsubmit="saveFacebookLiveUrl(event)" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                        <div class="flex-1">
+                            <label for="fb-live-input" class="block text-[11px] font-bold text-amber-300 mb-1">
+                                Cole aqui o link da Live ou Vídeo do Facebook de Adilson / Andreia Malaquias:
+                            </label>
+                            <input type="url" id="fb-live-input" placeholder="Ex: https://www.facebook.com/share/v/..." class="w-full bg-navy-900 text-white placeholder-slate-400 text-xs px-3.5 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="flex items-center gap-2 sm:pt-5">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-black px-4 py-2.5 rounded-xl transition shrink-0">
+                                <i class="fa-solid fa-tv mr-1"></i> Colocar no Ar
+                            </button>
+                            <button type="button" onclick="clearFacebookLiveUrl()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold px-3 py-2.5 rounded-xl transition shrink-0">
+                                Limpar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Área do Player Incorporado do Facebook -->
+                <div id="fb-player-body" class="p-4 sm:p-6 space-y-6">
+                    <div id="fb-embed-container" class="w-full">
+                        <!-- Renderizado via JS -->
+                    </div>
+
+                    <!-- Galeria de Vídeos, Reels & Publicações Oficiais do Facebook (Andreia Malaquias) -->
+                    <div class="pt-5 border-t border-slate-800">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-newspaper text-amber-400"></i>
+                                <h3 class="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400">
+                                    Mural Direto no Site • Posts, Vídeos & Reels do Facebook
+                                </h3>
+                            </div>
+                            <span class="text-[11px] text-slate-300">Exibidos diretamente dentro do portal, sem sair do site</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 mb-5">
+                            <button onclick="switchFacebookPlayerVideo('https://www.facebook.com/share/v/1CogAihNo8/', 'Transmissão Especial • Estúdio 87,9 FM')" class="text-left bg-blue-600/20 hover:bg-blue-600/40 border border-blue-400/40 rounded-xl p-3 transition flex items-center gap-3 group">
+                                <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                                    <i class="fa-solid fa-play text-xs"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-[10px] font-black uppercase text-sky-300">Vídeo Principal</div>
+                                    <div class="text-xs font-bold text-white truncate">Programa & Boletim Ao Vivo</div>
+                                </div>
+                            </button>
+
+                            <button onclick="switchFacebookPlayerVideo('https://www.facebook.com/share/v/1Kg1WYrgjG/', 'Vídeo Destaque • Facebook Oficial')" class="text-left bg-blue-600/20 hover:bg-blue-600/40 border border-blue-400/40 rounded-xl p-3 transition flex items-center gap-3 group">
+                                <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                                    <i class="fa-solid fa-video text-xs"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-[10px] font-black uppercase text-sky-300">Vídeo Facebook #2</div>
+                                    <div class="text-xs font-bold text-white truncate">Cobertura Regional em Vídeo</div>
+                                </div>
+                            </button>
+
+                            <button onclick="switchFacebookPlayerVideo('https://www.facebook.com/share/r/1EMPmHGzuS/', 'Reel Destaque • De Olho em Tudo')" class="text-left bg-purple-600/20 hover:bg-purple-600/40 border border-purple-400/40 rounded-xl p-3 transition flex items-center gap-3 group">
+                                <div class="w-9 h-9 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                                    <i class="fa-solid fa-clapperboard text-xs"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-[10px] font-black uppercase text-purple-300">Reel Facebook #1</div>
+                                    <div class="text-xs font-bold text-white truncate">Plantão Rápido em Vídeo</div>
+                                </div>
+                            </button>
+
+                            <button onclick="switchFacebookPlayerVideo('https://www.facebook.com/share/r/1Gvu26k4LE/', 'Reel Exclusivo • Última Hora')" class="text-left bg-purple-600/20 hover:bg-purple-600/40 border border-purple-400/40 rounded-xl p-3 transition flex items-center gap-3 group">
+                                <div class="w-9 h-9 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                                    <i class="fa-solid fa-clapperboard text-xs"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-[10px] font-black uppercase text-purple-300">Reel Facebook #2</div>
+                                    <div class="text-xs font-bold text-white truncate">Destaque da Noite • MS</div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="bg-navy-950/90 rounded-2xl p-4 border border-slate-800">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
+                                <div class="text-xs font-extrabold text-white flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                                    <span>Postagens Incorporadas Direto no Portal (Leitura na Própria Tela):</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="toggleAllEmbeddedPosts()" id="toggle-all-posts-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-black px-3 py-1.5 rounded-lg transition">
+                                        <i class="fa-solid fa-layer-group mr-1"></i> Mostrar Todos os 13 Posts
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="fb-posts-links-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <!-- Renderizado via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- ===================================================================== -->
-    <!-- 7. RODAPÉ INSTITUCIONAL                                               -->
-    <!-- ===================================================================== -->
+    <!-- 7. RODAPÉ INSTITUCIONAL -->
     <footer class="bg-navy-950 text-slate-300 border-t border-slate-800 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
-                
                 <div>
                     <div class="flex items-center gap-2.5 mb-3">
                         <div class="w-9 h-9 rounded-xl bg-radioRed-600 flex items-center justify-center text-white">
@@ -728,7 +825,7 @@
                 <div>
                     <h4 class="text-xs font-black uppercase tracking-wider text-amber-400 mb-3">Cobertura Regional MS</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Coxim • São Gabriel do Oeste • Sonora • Pedro Gomes • Bandeirantes • Jaraguari • Camapuã (Cabaquan) • Campo Grande e notícias nacionais.
+                        Vicentina • Campo Grande • Dourados • Sonora • Coxim • São Gabriel do Oeste • Pedro Gomes • Bandeirantes • Jaraguari • Camapuã (Cabaquan) e notícias nacionais.
                     </p>
                 </div>
 
@@ -741,7 +838,6 @@
                         <li><i class="fa-solid fa-location-dot text-radioRed-500 mr-1.5"></i> Bairro Sr. Divino, Coxim - MS</li>
                     </ul>
                 </div>
-
             </div>
 
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
@@ -759,13 +855,12 @@
     <div id="article-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy-950/85 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
         <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden my-auto border border-slate-200">
             
-            <!-- Topo do Modal -->
             <div class="bg-navy-900 text-white px-5 py-3.5 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <span id="modal-badge" class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded bg-emerald-600 text-white">
-                        COXIM
+                        VICENTINA
                     </span>
-                    <span id="modal-category" class="text-xs text-slate-300 font-semibold">Cidades & Regional</span>
+                    <span id="modal-category" class="text-xs text-slate-300 font-semibold">Plantão Policial & Acidentes</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="editCurrentModalArticle()" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-navy-950 text-xs font-bold flex items-center gap-1 transition" title="Editar esta notícia">
@@ -777,7 +872,6 @@
                 </div>
             </div>
 
-            <!-- Corpo rolável da matéria -->
             <div class="p-5 sm:p-8 max-h-[82vh] overflow-y-auto">
                 <h2 id="modal-title" class="font-serif text-xl sm:text-3xl font-black text-navy-900 leading-tight mb-3">
                     Título da Notícia
@@ -820,7 +914,7 @@
                     </figcaption>
                 </figure>
 
-                <!-- Texto da Reportagem -->
+                <!-- Texto Completo da Reportagem -->
                 <div id="modal-body" class="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed mb-8">
                     <!-- Parágrafos inseridos via JS -->
                 </div>
@@ -874,14 +968,16 @@
                     <div>
                         <label class="block text-xs font-extrabold text-navy-900 uppercase mb-1">Cidade / Região *</label>
                         <select id="edit-city" required class="w-full bg-slate-50 text-navy-900 text-sm px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-navy-900">
+                            <option value="Vicentina">Vicentina - MS</option>
+                            <option value="Campo Grande">Campo Grande - MS</option>
+                            <option value="Dourados">Dourados - MS</option>
+                            <option value="Sonora">Sonora - MS</option>
                             <option value="Coxim">Coxim - MS</option>
                             <option value="São Gabriel do Oeste">São Gabriel do Oeste - MS</option>
-                            <option value="Sonora">Sonora - MS</option>
                             <option value="Pedro Gomes">Pedro Gomes - MS</option>
                             <option value="Bandeirantes">Bandeirantes - MS</option>
                             <option value="Jaraguari">Jaraguari - MS</option>
                             <option value="Camapuã">Camapuã (Cabaquan) - MS</option>
-                            <option value="Campo Grande">Campo Grande - MS</option>
                             <option value="Nacional">Brasil / Nacional</option>
                         </select>
                     </div>
@@ -890,8 +986,8 @@
                         <label class="block text-xs font-extrabold text-navy-900 uppercase mb-1">Editoria / Assunto *</label>
                         <select id="edit-category" required class="w-full bg-slate-50 text-navy-900 text-sm px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-navy-900">
                             <option value="Plantão Policial & Acidentes">Plantão Policial & Acidentes</option>
-                            <option value="Agropecuária & Agronegócio">Agropecuária & Agronegócio</option>
                             <option value="Cidades & Regional">Cidades & Regional</option>
+                            <option value="Agropecuária & Agronegócio">Agropecuária & Agronegócio</option>
                             <option value="Economia & Finanças">Economia & Finanças</option>
                             <option value="Atualidades & Nacional">Atualidades & Nacional</option>
                         </select>
@@ -937,104 +1033,351 @@
         </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- TOAST DE NOTIFICAÇÃO                                                  -->
-    <!-- ===================================================================== -->
+    <!-- TOAST DE NOTIFICAÇÃO -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 bg-navy-950 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl border border-slate-700">
         <i class="fa-solid fa-circle-info text-amber-400 text-sm"></i>
         <span id="toast-message">Notificação</span>
     </div>
 
     <!-- ===================================================================== -->
-    <!-- JAVASCRIPT: COBERTURA REGIONAL MS, EDITOR DA REDAÇÃO & INTERATIVIDADE -->
+    <!-- JAVASCRIPT COMPLETO COM TODAS AS REPORTAGENS & FUNÇÕES DE LEITURA     -->
     <!-- ===================================================================== -->
     <script>
         // ---------------------------------------------------------------------
-        // 1. BANCO DE NOTÍCIAS QUENTES: COXIM, SÃO GABRIEL, SONORA, PEDRO GOMES,
-        //    BANDEIRANTES, JARAGUARI, CAMAPUÃ, CAMPO GRANDE & NACIONAL
+        // 1. BANCO COMPLETO DE NOTÍCIAS (TEXTOS INTEGRAIS PARA TODAS AS MATÉRIAS)
         // ---------------------------------------------------------------------
-        const STORAGE_KEY = "de_olho_em_tudo_articles_v3";
+        const STORAGE_KEY = "de_olho_em_tudo_articles_v5";
 
         const defaultArticles = [
             {
-                id: 1,
-                city: "Coxim",
-                category: "Cidades & Regional",
+                id: 301,
+                city: "Vicentina",
+                category: "Plantão Policial & Acidentes",
                 urgent: true,
-                tag: "Coxim • Infraestrutura & Senhor Divino",
-                title: "Obras de pavimentação, drenagem e iluminação LED avançam no bairro Senhor Divino e vias de acesso em Coxim",
-                summary: "Moradores do tradicional bairro Senhor Divino acompanham de perto o cronograma de melhorias na malha viária. No programa De Olho em Tudo, Adilson Malaquias fiscaliza os prazos.",
-                author: "Adilson Malaquias • FM Pantaneira 87,9",
-                date: "Coxim - MS • Hoje",
+                tag: "Vicentina • Polícia Civil",
+                title: "Madrasta de 41 anos é presa em flagrante em Vicentina suspeita de torturar enteadas e forçar jovens a ingerir sabão de soda e pimenta",
+                summary: "Segundo relatos das vítimas de 15 e 18 anos à Polícia Civil, as agressões e castigos cruéis ocorriam havia anos sem o conhecimento do pai.",
+                author: "Redação De Olho em Tudo • Fonte: Campo Grande News",
+                date: "Vicentina - MS • Plantão Policial",
                 readTime: "4 min de leitura",
-                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1000&q=80",
-                caption: "Frentes de trabalho atuam na recuperação asfáltica e drenagem pluvial no bairro Senhor Divino, em Coxim.",
+                image: "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=1200&q=80",
+                caption: "Suspeita foi presa em flagrante pela Polícia Civil em Vicentina e autuada por tortura-castigo.",
                 content: [
-                    "COXIM (MS) — As obras de drenagem de águas pluviais, recuperação asfáltica e modernização da iluminação pública seguem em ritmo intenso no bairro Senhor Divino e nas principais vias de ligação de Coxim.",
-                    "Durante o programa De Olho em Tudo, na FM Pantaneira 87,9, Adilson Malaquias destacou a importância da participação dos moradores na fiscalização diária dos serviços executados.",
-                    "\"O cidadão do Senhor Divino e de todos os bairros de Coxim merece ruas bem sinalizadas, sem buracos e com iluminação segura à noite. Nosso microfone está aberto de segunda a sexta, das 08h30 às 10h00\", ressaltou."
+                    "Uma mulher de 41 anos foi presa em flagrante pela Polícia Civil em Vicentina (MS) sob suspeita de submeter duas enteadas, de 15 e 18 anos, a sessões contínuas de tortura física e psicológica dentro da residência da família.",
+                    "De acordo com o boletim de ocorrência e os depoimentos prestados pelas vítimas na delegacia, as agressões vinham acontecendo há vários anos e incluíam espancamentos, ameaças graves, cortes na língua e a obrigação de ingerir sabão de soda cáustica e pimenta como forma de castigo.",
+                    "Ainda conforme o levantamento preliminar da Polícia Civil, o pai das adolescentes não tinha conhecimento da gravidade das agressões praticadas pela companheira quando ele estava fora de casa trabalhando.",
+                    "Após a denúncia chegar às autoridades e ao Conselho Tutelar, os investigadores localizaram a mulher e efetuaram a prisão em flagrante. Ela foi autuada pelo crime de tortura-castigo e permanece à disposição da Justiça aguardando audiência de custódia. As duas jovens foram encaminhadas para atendimento médico e exames de corpo de delito."
                 ],
                 comments: [
-                    { author: "Sebastião Mendes • Bairro Senhor Divino", text: "Parabéns Adilson por acompanhar de perto as melhorias aqui no nosso bairro! Ligado todos os dias na 87,9." }
+                    { author: "Maria Helena • Vicentina", text: "Que absurdo! Graças a Deus a polícia agiu rápido e resgatou essas meninas." }
                 ]
+            },
+            {
+                id: 302,
+                city: "Campo Grande",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Campo Grande • Choque PMMS",
+                title: "Agressor de mulheres com extensa ficha criminal reage armado ao Batalhão de Choque e morre na Av. Gury Marques",
+                summary: "Mário Fernandes, de 60 anos, havia trancado a ex-companheira em casa com as bocas do fogão abertas e apontou um revólver calibre .38 contra os policiais.",
+                author: "Redação De Olho em Tudo • Fonte: Jornal A Onça",
+                date: "Campo Grande - MS • Moreninhas",
+                readTime: "4 min de leitura",
+                image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1000&q=80",
+                caption: "Equipes do Batalhão de Choque e da Perícia Técnica isolaram trecho da Avenida Gury Marques.",
+                content: [
+                    "Mário Fernandes, de 60 anos, morreu após reagir armado a uma abordagem de equipes do Batalhão de Polícia Militar de Choque (BPChoque) na Avenida Gury Marques, na região das Moreninhas, em Campo Grande.",
+                    "Segundo informações da Polícia Militar, os agentes realizavam diligências para localizar o suspeito após graves denúncias de violência doméstica e ameaças de morte contra a ex-companheira. Em um dos episódios relatados à polícia, ele teria trancado a mulher dentro de casa, aberto as bocas do fogão para vazar gás e ameaçado matá-la. Um menino de 11 anos também teria sido agredido no peito e ameaçado.",
+                    "Ao ser localizado na Avenida Gury Marques, Mário desobedeceu à ordem de parada dos militares, sacou um revólver calibre .38 e apontou a arma em direção à equipe policial. Diante da injusta agressão iminente, os policiais reagiram e atingiram o suspeito.",
+                    "Ele chegou a ser socorrido com vida e encaminhado à UPA Moreninhas, mas não resistiu aos ferimentos. Conforme a polícia, o homem havia deixado recentemente o sistema prisional e acumulava extensa ficha criminal por roubo, receptação, furto e violência contra a mulher. O revólver foi apreendido e periciado."
+                ],
+                comments: []
+            },
+            {
+                id: 303,
+                city: "Campo Grande",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Campo Grande • Terminal Morenão",
+                title: "Homem é preso em flagrante pela GCM após cometer ato sexual ao lado de adolescente dentro de ônibus em Campo Grande",
+                summary: "Estudante de 13 anos voltava da escola quando flagrou o abuso, gravou a ação com o celular e pediu socorro à segurança no Terminal Morenão.",
+                author: "Redação De Olho em Tudo • Fonte: Campo Grande News",
+                date: "Campo Grande - MS • Direto das Ruas",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1000&q=80",
+                caption: "Guarda Civil Metropolitana conduziu o suspeito detido no Terminal Morenão para a delegacia.",
+                content: [
+                    "Um homem foi preso em flagrante pela Guarda Civil Metropolitana (GCM) após cometer ato libidinoso ao lado de uma adolescente dentro de um ônibus do transporte coletivo urbano em Campo Grande.",
+                    "De acordo com o registro policial, a jovem voltava da escola por volta das 13h quando percebeu o comportamento abusivo do passageiro sentado ao seu lado. Com coragem, ela conseguiu registrar a situação com o aparelho celular para reunir provas e pediu ajuda imediata assim que o coletivo chegou ao Terminal Morenão.",
+                    "Com o apoio de outras estudantes que presenciaram o desespero da vítima, a adolescente apontou o suspeito à equipe de segurança patrimonial do terminal, que acionou rapidamente uma viatura da Guarda Civil Metropolitana.",
+                    "O suspeito foi detido ainda no terminal e encaminhado à delegacia de plantão. A adolescente, acompanhada pela mãe, compareceu à unidade policial para formalizar a denúncia e entregar as gravações que comprovam o crime."
+                ],
+                comments: []
+            },
+            {
+                id: 304,
+                city: "Dourados",
+                category: "Cidades & Regional",
+                urgent: false,
+                tag: "Dourados • Ministério Público",
+                title: "Ex-deputada Bela Barros é denunciada pelo Ministério Público por injúria racial e agressão contra cozinheira em Dourados",
+                summary: "Segundo a acusação do MPMS, a ex-parlamentar teria pressionado a mão da funcionária contra um tacho quente e proferido ofensas racistas em restaurante.",
+                author: "Redação De Olho em Tudo • Fonte: Campo Grande News",
+                date: "Dourados - MS • Justiça",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=1000&q=80",
+                caption: "Denúncia foi formalizada pelo Ministério Público de Mato Grosso do Sul em Dourados.",
+                content: [
+                    "O Ministério Público de Mato Grosso do Sul (MPMS) ofereceu denúncia criminal contra a ex-deputada estadual Bela Barros, de 69 anos, pelos crimes de injúria racial e lesão corporal leve praticados contra uma cozinheira de um de seus restaurantes, no município de Dourados.",
+                    "De acordo com a peça acusatória encaminhada à Justiça, o episódio ocorreu em novembro de 2024 durante o expediente na cozinha do estabelecimento. Conforme o relato da vítima e das testemunhas ouvidas no inquérito policial, a ex-parlamentar teria colocado à força a mão da trabalhadora em um tacho quente e a ofendido com expressões de cunho racista.",
+                    "A defesa de Bela Barros nega todas as acusações de agressão física e injúria racial. O processo agora segue para análise do Poder Judiciário em Dourados, ressaltando-se que o oferecimento da denúncia ainda não representa condenação definitiva."
+                ],
+                comments: []
+            },
+            {
+                id: 201,
+                city: "Campo Grande",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Campo Grande • Operação Policial",
+                title: "Perseguição após tiros contra viatura mobiliza Choque, Força Tática e helicópteros em Campo Grande",
+                summary: "Suspeito de 39 anos abandonou um Fiat Mobi alugado próximo à Kepler Weber no Indubrasil e fugiu de moto rumo a Terenos; irmão foi preso.",
+                author: "Redação De Olho em Tudo • Adilson Malaquias",
+                date: "Campo Grande - MS • Plantão Policial",
+                readTime: "4 min de leitura",
+                image: "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=1200&q=80",
+                caption: "Equipes da Força Tática, Choque e helicóptero da Sejusp cercaram a região do Indubrasil até Terenos.",
+                content: [
+                    "Uma grande perseguição policial mobilizou equipes do Batalhão de Choque, da Força Tática e até helicópteros da Secretaria de Estado de Justiça e Segurança Pública (Sejusp) em Campo Grande.",
+                    "A ocorrência teve início na região central da Capital, depois que um suspeito de 39 anos, que possui mandado de prisão em aberto por tráfico de drogas, efetuou disparos de arma de fogo contra uma viatura policial durante uma tentativa de abordagem.",
+                    "Durante a fuga em alta velocidade, o homem abandonou um veículo Fiat Mobi alugado nas proximidades da indústria Kepler Weber, no Núcleo Industrial, região do Indubrasil. As equipes realizaram varredura minuciosa no automóvel, mas nenhuma droga foi encontrada no interior do carro.",
+                    "As buscas se estenderam pela rodovia até o município de Terenos, a cerca de 30 quilômetros de Campo Grande, onde a motocicleta utilizada na continuidade da fuga foi localizada. Um homem de 32 anos, apontado como irmão do suspeito, foi preso por ter emprestado a moto para auxiliar na fuga. O carro abandonado foi recolhido pelo Detran-MS e encaminhado à 2ª Delegacia de Polícia para perícia."
+                ],
+                comments: [
+                    { author: "Carlos Eduardo • Campo Grande", text: "Vi o helicóptero sobrevoando baixo aqui perto do Indubrasil, operação gigantesca da polícia!" }
+                ]
+            },
+            {
+                id: 202,
+                city: "Sonora",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Sonora • Espionagem & Tráfico",
+                title: "\"Orelha\" é preso por espionar rotina policial a mando de facção em Sonora; mulher também foi detida",
+                summary: "Ação conjunta das polícias Civil e Militar flagrou suspeito filmando a delegacia e viaturas para antecipar operações; drogas foram apreendidas.",
+                author: "Redação De Olho em Tudo • Fonte: Edição MS",
+                date: "Sonora - MS • Região Norte",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1000&q=80",
+                caption: "Ação integrada das Polícias Civil e Militar desarticulou ponto de monitoramento criminoso em Sonora.",
+                content: [
+                    "Uma ação conjunta das polícias Civil e Militar prendeu em Sonora (MS) um homem conhecido pelo apelido de 'Orelha', após o setor de inteligência descobrir que ele estava filmando e fotografando a delegacia, viaturas e a movimentação dos agentes a mando de uma facção criminosa.",
+                    "Segundo a investigação policial, o objetivo do monitoramento clandestino era vigiar a rotina das equipes de segurança para avisar comparsas, antecipar operações policiais e colocar a vida dos agentes em risco na região norte do Estado.",
+                    "Durante o cumprimento das diligências na mesma residência, os policiais também prenderam uma mulher que já havia sido detida quatro vezes por tráfico de drogas somente neste ano. No quarto dela, os agentes encontraram e apreenderam porções de maconha e pasta-base de cocaína prontas para comercialização.",
+                    "Os dois suspeitos foram conduzidos à Delegacia de Polícia Civil de Sonora e autuados pelos crimes de associação criminosa, tráfico de drogas e monitoramento ilícito de atividade policial."
+                ],
+                comments: [
+                    { author: "Sérgio • Sonora - MS", text: "Parabéns às polícias Civil e Militar de Sonora pelo trabalho firme!" }
+                ]
+            },
+            {
+                id: 203,
+                city: "Campo Grande",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Campo Grande • GCM & ROMU",
+                title: "GCM apreende 345 quilos de folhas de coca distribuídos em 15 malas na rodoviária de Campo Grande",
+                summary: "Equipes da Guarda Civil Metropolitana e da ROMU interceptaram a carga milionária durante fiscalização de rotina no terminal rodoviário.",
+                author: "Redação De Olho em Tudo • Fonte: Nova Lima News",
+                date: "Campo Grande - MS • Plantão",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1000&q=80",
+                caption: "Agentes da GCM e da ROMU contabilizaram 15 malas carregadas com folhas de coca.",
+                content: [
+                    "Agentes da Guarda Civil Metropolitana (GCM) e da Ronda Ostensiva Municipal (ROMU) realizaram uma grande apreensão de 345 quilos de folhas de coca no Terminal Rodoviário de Campo Grande.",
+                    "A substância, matéria-prima utilizada no refino de cocaína, estava acondicionada em 15 malas de viagem de grande porte que chamavam a atenção pelo peso excessivo durante a fiscalização preventiva nas plataformas de embarque e desembarque.",
+                    "Todo o material apreendido foi pesado, lacrado e encaminhado à delegacia especializada para os procedimentos legais de perícia e investigação sobre a origem e o destino final da carga."
+                ],
+                comments: []
+            },
+            {
+                id: 204,
+                city: "Campo Grande",
+                category: "Cidades & Regional",
+                urgent: true,
+                tag: "Campo Grande • Alerta Chuvas",
+                title: "Transbordamento do Córrego Bálsamo alaga casas no Bairro Santo Eugênio e deixa Guaicurus e João Arinos intransitáveis",
+                summary: "Temporal desta terça-feira provocou enxurradas em diversas regiões da Capital; motoristas precisaram fazer conversões na contramão.",
+                author: "Redação De Olho em Tudo • Fonte: Midiamax",
+                date: "Campo Grande - MS • Defesa Civil",
+                readTime: "4 min de leitura",
+                image: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=1000&q=80",
+                caption: "Fortes chuvas provocaram transbordamento de córregos e alagamentos em vias arteriais de Campo Grande.",
+                content: [
+                    "A forte chuva que atingiu Campo Grande provocou sérios pontos de alagamento e transtornos no trânsito em diferentes regiões da Capital sul-mato-grossense.",
+                    "No Bairro Santo Eugênio, o volume elevado de água fez o Córrego Bálsamo transbordar rapidamente, invadindo quintais e residências localizadas ao longo da Avenida Santo Eugênio.",
+                    "A Avenida Guaicurus também ficou completamente alagada na altura do córrego, trecho já conhecido pelos moradores pelos frequentes transbordamentos em dias de temporal.",
+                    "Já no pontilhão da Avenida Ministro João Arinos, na região do Bairro Maria Aparecida Pedrossian, o acúmulo de enxurrada travou o fluxo de veículos e obrigou motoristas a realizarem conversões improvisadas no meio da pista para escapar da água."
+                ],
+                comments: []
+            },
+            {
+                id: 205,
+                city: "Campo Grande",
+                category: "Cidades & Regional",
+                urgent: false,
+                tag: "Campo Grande • Meteorologia",
+                title: "Temporal causa alagamento em rua no Bairro Rita Vieira; Capital registra média de 29,5 milímetros de chuva",
+                summary: "Rua César Ramos dos Santos ficou tomada pela água, mas residências não foram invadidas; previsão indica sol pela manhã e pancadas à tarde.",
+                author: "Redação De Olho em Tudo • Fonte: Midiamax",
+                date: "Campo Grande - MS • Clima & Tempo",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1000&q=80",
+                caption: "Meteorologista Natálio Abraão Filho confirmou acumulado de 29,5 mm em Campo Grande.",
+                content: [
+                    "A pancada de chuva que caiu sobre Campo Grande causou alagamento na Rua César Ramos dos Santos, no Bairro Rita Vieira. Apesar do grande volume de enxurrada que tomou conta de toda a extensão da via, a água escoou sem invadir o interior das residências.",
+                    "De acordo com o monitoramento do meteorologista Natálio Abraão Filho, a Capital registrou média de 29,5 milímetros de precipitação durante o temporal.",
+                    "Para os próximos dias, a previsão meteorológica aponta predomínio de sol no período da manhã, com retorno das pancadas isoladas de chuva entre a tarde e a noite. Os termômetros devem variar entre mínima de 21°C e máxima de 33°C."
+                ],
+                comments: []
+            },
+            {
+                id: 206,
+                city: "Campo Grande",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Campo Grande • Jardim Centenário",
+                title: "Faccionado do Comando Vermelho morre em confronto com policiais no Bairro Jardim Centenário",
+                summary: "Suspeito reagiu à abordagem policial na região sul da Capital; equipes da perícia e da Polícia Civil isolaram o local da ocorrência.",
+                author: "Redação De Olho em Tudo • Fonte: Midiamax",
+                date: "Campo Grande - MS • Segurança",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?auto=format&fit=crop&w=1000&q=80",
+                caption: "Polícia isolou a área no Bairro Jardim Centenário após troca de tiros durante operação.",
+                content: [
+                    "Um homem apontado pelas forças de segurança como integrante da facção criminosa Comando Vermelho morreu após entrar em confronto armado com policiais no Bairro Jardim Centenário, em Campo Grande.",
+                    "Segundo as primeiras informações apuradas no local, as equipes realizavam diligências na região quando o suspeito reagiu à abordagem disparando contra os agentes, que revidaram.",
+                    "A Polícia Científica e delegados da Polícia Civil estiveram no local para realizar os levantamentos periciais e apreender o armamento utilizado no confronto."
+                ],
+                comments: []
+            },
+            {
+                id: 207,
+                city: "Campo Grande",
+                category: "Cidades & Regional",
+                urgent: false,
+                tag: "Campo Grande • Saúde Pública",
+                title: "Com alta de casos no Brasil, Sesau de Campo Grande alerta: 'Covid-19 nunca deixou de circular'",
+                summary: "Secretaria Municipal de Saúde reforça importância da atualização vacinal nas unidades básicas e cuidados ao apresentar sintomas gripais.",
+                author: "Redação De Olho em Tudo • Fonte: Midiamax",
+                date: "Campo Grande - MS • Saúde",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=1000&q=80",
+                caption: "Sesau orienta população de Campo Grande a manter esquema vacinal atualizado nas USFs.",
+                content: [
+                    "Diante do aumento recente no número de notificações de síndromes respiratórias no país, a Secretaria Municipal de Saúde (Sesau) de Campo Grande emitiu um alerta à população lembrando que o vírus da Covid-19 nunca deixou de circular na Capital.",
+                    "Mesmo após o encerramento oficial da emergência sanitária internacional, os técnicos da vigilância epidemiológica destacam que o vírus continua apresentando oscilações sazonais e pode provocar quadros graves em idosos, gestantes, imunossuprimidos e pessoas com comorbidades.",
+                    "A Sesau orienta que os moradores procurem as Unidades de Saúde da Família (USFs) para atualizar as doses de reforço disponíveis no calendário nacional e adotem medidas preventivas, como higienização frequente das mãos e uso de máscara em caso de sintomas gripais."
+                ],
+                comments: []
+            },
+            {
+                id: 208,
+                city: "Campo Grande",
+                category: "Agropecuária & Agronegócio",
+                urgent: false,
+                tag: "Pantanal MS • Meio Ambiente",
+                title: "Mansão de tatu-canastra? 'Engenheiro do Pantanal' constrói verdadeiras cidades subterrâneas em MS",
+                summary: "Pesquisadores mostram como as tocas gigantes escavadas pelo maior tatu do mundo servem de abrigo térmico para dezenas de outras espécies pantaneiras.",
+                author: "Redação De Olho em Tudo • Fonte: Midiamax",
+                date: "Pantanal / Campo Grande - MS",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1000&q=80",
+                caption: "Tatu-canastra é considerado o grande engenheiro ecológico do Pantanal sul-mato-grossense.",
+                content: [
+                    "Conhecido pelos biólogos e pesquisadores de Mato Grosso do Sul como o verdadeiro 'Engenheiro do Pantanal', o tatu-canastra escava tocas monumentais que funcionam como autênticas cidades subterrâneas no bioma.",
+                    "Registros feitos por armadilhas fotográficas no Pantanal sul-mato-grossense mostram que as galerias profundas construídas pelo animal possuem temperatura estável e protegem a fauna contra o calor extremo, predadores e incêndios florestais.",
+                    "Mais de 70 espécies diferentes — incluindo tamanduás, jaguatiricas, aves, répteis e pequenos mamíferos — utilizam as tocas abandonadas pelo tatu-canastra para descansar, se alimentar e se reproduzir, tornando a preservação da espécie fundamental para todo o equilíbrio ambiental de MS."
+                ],
+                comments: []
+            },
+            {
+                id: 1,
+                city: "Coxim",
+                category: "Plantão Policial & Acidentes",
+                urgent: true,
+                tag: "Coxim • BR-163",
+                title: "Carreta tomba no trevo norte da BR-163 em Coxim e mobiliza equipes de resgate da CCR MSVia e PRF",
+                summary: "Acidente ocorreu nas primeiras horas da manhã próximo ao acesso ao Bairro Senhor Divino; trânsito operou em sistema pare-e-siga.",
+                author: "Adilson Malaquias • Redação 87,9",
+                date: "Coxim - MS • Hoje",
+                readTime: "3 min de leitura",
+                image: "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=1200&q=80",
+                caption: "Equipes da PRF e da CCR MSVia sinalizaram o trecho da BR-163 em Coxim.",
+                content: [
+                    "Uma carreta carregada de grãos tombou no trevo norte da rodovia BR-163, em Coxim (MS), mobilizando equipes de resgate da concessionária CCR MSVia, Corpo de Bombeiros e Polícia Rodoviária Federal (PRF).",
+                    "De acordo com as primeiras informações colhidas pela reportagem do programa De Olho em Tudo, o motorista perdeu o controle direcional ao contornar a alça de acesso. Felizmente, o condutor sofreu apenas escoriações leves e recebeu atendimento no local.",
+                    "O tráfego ficou parcialmente interditado durante a manhã para o destombamento do veículo e limpeza da pista, sendo liberado totalmente no início da tarde."
+                ],
+                comments: []
             },
             {
                 id: 2,
                 city: "São Gabriel do Oeste",
                 category: "Plantão Policial & Acidentes",
                 urgent: true,
-                tag: "BR-163 • Plantão Acidentes",
-                title: "Colisão entre carreta e veículo de passeio deixa trânsito em meia pista na BR-163 entre São Gabriel do Oeste e Bandeirantes",
-                summary: "Equipes de resgate da concessionária e Polícia Rodoviária Federal atenderam a ocorrência no início da manhã; motoristas devem redobrar atenção no trecho.",
-                author: "Plantão Policial 87,9 FM",
-                date: "São Gabriel do Oeste / Bandeirantes • Hoje",
+                tag: "São Gabriel do Oeste • Plantão",
+                title: "Polícia Militar recupera caminhonete furtada em São Gabriel do Oeste durante cerco na saída para Rio Verde",
+                summary: "Ação rápida das equipes policiais impediu que o veículo fosse levado para fora da região norte do Estado; suspeito foi detido.",
+                author: "Adilson Malaquias • Redação 87,9",
+                date: "São Gabriel do Oeste - MS",
                 readTime: "3 min de leitura",
-                image: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=1000&q=80",
-                caption: "Fluxo intenso de carretas exige atenção redobrada na rodovia BR-163 entre São Gabriel do Oeste e Bandeirantes.",
+                image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1000&q=80",
+                caption: "Veículo foi localizado e devolvido ao proprietário após diligências da PM.",
                 content: [
-                    "SÃO GABRIEL DO OESTE (MS) — Um acidente envolvendo uma carreta bitrem e um automóvel de passeio provocou lentidão e sistema Pare e Siga na rodovia BR-163, no trecho que liga São Gabriel do Oeste a Bandeirantes.",
-                    "Viaturas de resgate rodoviário e agentes da Polícia Rodoviária Federal (PRF) isolaram a área para atendimento aos ocupantes e remoção dos veículos da pista.",
-                    "A orientação para quem segue sentido Campo Grande ou Norte do Estado é manter distância segura e evitar ultrapassagens forçadas em trechos de pista simples."
+                    "Uma operação integrada da Polícia Militar de São Gabriel do Oeste resultou na recuperação de uma caminhonete que havia sido furtada durante a madrugada no centro da cidade.",
+                    "Assim que o proprietário acionou o telefone 190, as guarnições montaram barreiras estratégicas nas saídas da BR-163 e estradas vicinais da região. O veículo foi interceptado antes de deixar o município.",
+                    "O suspeito foi encaminhado à Delegacia de Polícia Civil de São Gabriel do Oeste e a caminhonete restituída ao dono."
                 ],
                 comments: []
             },
             {
                 id: 3,
-                city: "Sonora",
-                category: "Plantão Policial & Acidentes",
-                urgent: true,
-                tag: "Sonora & Pedro Gomes • Operação PRF",
-                title: "Operação integrada das forças policiais reforça fiscalização na divisa de Sonora e Pedro Gomes contra o contrabando",
-                summary: "Barreiras itinerantes na BR-163 e estradas vicinais da região norte já resultaram na apreensão de cargas irregulares e recuperação de veículos.",
-                author: "Plantão Policial • De Olho em Tudo",
-                date: "Sonora / Pedro Gomes • Hoje",
+                city: "Pedro Gomes",
+                category: "Cidades & Regional",
+                urgent: false,
+                tag: "Pedro Gomes • Infraestrutura",
+                title: "Prefeitura de Pedro Gomes intensifica recuperação de estradas vicinais para garantir escoamento escolar e rural",
+                summary: "Patrolamento, cascalhamento e reforma de pontes de madeira atendem produtores rurais e linhas de transporte estudantil.",
+                author: "Redação De Olho em Tudo",
+                date: "Pedro Gomes - MS",
                 readTime: "3 min de leitura",
-                image: "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=1000&q=80",
-                caption: "Policiamento ostensivo intensificado na fronteira norte de Mato Grosso do Sul entre Sonora e Pedro Gomes.",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1000&q=80",
+                caption: "Frente de obras atua nas principais estradas rurais de Pedro Gomes.",
                 content: [
-                    "SONORA (MS) — Uma força-tarefa reunindo Polícia Militar, Polícia Civil e Polícia Rodoviária Federal intensificou o patrulhamento na região de Sonora e Pedro Gomes, extremo norte de Mato Grosso do Sul.",
-                    "O objetivo da operação é coibir crimes transfronteiriços, tráfico de entorpecentes e garantir maior segurança aos produtores rurais e comerciantes dos dois municípios.",
-                    "Segundo o comando regional, denúncias anônimas da população têm sido fundamentais para o sucesso das abordagens."
+                    "A Secretaria Municipal de Obras de Pedro Gomes está executando um cronograma intensivo de manutenção nas estradas vicinais do município, priorizando os trechos utilizados pelo transporte escolar e pelo escoamento da produção pecuária.",
+                    "Os serviços incluem patrolamento, levantamento de leito, cascalhamento de pontos críticos e reforço estrutural em pontes de madeira sobre córregos da região.",
+                    "Segundo moradores da zona rural que participaram do programa De Olho em Tudo, a melhoria garante mais segurança para ônibus escolares e caminhões boiadeiros."
                 ],
                 comments: []
             },
             {
                 id: 4,
-                city: "Camapuã",
-                category: "Agropecuária & Agronegócio",
+                city: "Bandeirantes",
+                category: "Plantão Policial & Acidentes",
                 urgent: false,
-                tag: "Camapuã (Cabaquan) • Pecuária",
-                title: "Leilões de gado de corte em Camapuã registram forte valorização do bezerro e atraem compradores de todo o Estado",
-                summary: "Conhecida nacionalmente pela qualidade genética do rebanho, Camapuã (Cabaquan) consolida liquidez na pecuária de cria e recria.",
-                author: "Agro MS • De Olho em Tudo",
-                date: "Camapuã - MS • Hoje",
-                readTime: "4 min de leitura",
-                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80",
-                caption: "Pecuária de corte em Camapuã segue como referência de genética e produtividade em Mato Grosso do Sul.",
+                tag: "Bandeirantes • BR-163",
+                title: "Colisão traseira entre dois veículos de passeio causa lentidão na BR-163 próximo ao perímetro urbano de Bandeirantes",
+                summary: "Ocupantes usavam cinto de segurança e não tiveram ferimentos graves; PRF orienta motoristas a redobrarem atenção em trechos de obras.",
+                author: "Redação De Olho em Tudo",
+                date: "Bandeirantes - MS",
+                readTime: "2 min de leitura",
+                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1000&q=80",
+                caption: "PRF reforça orientação sobre distância segura entre veículos na BR-163.",
                 content: [
-                    "CAMAPUÃ (MS) — Os recintos de leilões de Camapuã (região do Cabaquan) registraram movimentação expressiva nesta semana, com disputa acirrada pelos lotes de bezerros e novilhas de corte.",
-                    "Com pastagens favorecidas pelo regime de chuvas e investimento contínuo em melhoramento genético, os pecuaristas do município alcançaram médias acima da cotação estadual.",
-                    "A atividade segue impulsionando o comércio local, casas agropecuárias, transporte de gado e a geração de empregos no campo e na cidade."
+                    "Uma colisão traseira envolvendo dois automóveis de passeio provocou lentidão momentânea no fluxo da BR-163, nas proximidades do perímetro urbano de Bandeirantes (MS).",
+                    "De acordo com a Polícia Rodoviária Federal (PRF), todos os ocupantes utilizavam cinto de segurança e ninguém sofreu ferimentos graves.",
+                    "A PRF reforça o alerta aos condutores que trafegam entre Campo Grande e Coxim para que mantenham distância de seguimento e respeitem a sinalização nos trechos em obras."
                 ],
                 comments: []
             },
@@ -1043,145 +1386,69 @@
                 city: "Jaraguari",
                 category: "Cidades & Regional",
                 urgent: false,
-                tag: "Jaraguari & Bandeirantes • Obras",
-                title: "Manutenção de estradas rurais e pontes garante escoamento da produção leiteira e hortifrúti em Jaraguari e Bandeirantes",
-                summary: "Equipes de infraestrutura atuam no cascalhamento de vias vicinais estratégicas para pequenos produtores que abastecem a Capital.",
-                author: "Redação Regional 87,9",
-                date: "Jaraguari / Bandeirantes • Hoje",
+                tag: "Jaraguari • Região",
+                title: "Produtores da agricultura familiar de Jaraguari ampliam entrega de hortifrúti para merenda escolar e feiras",
+                summary: "Investimentos em irrigação e assistência técnica elevam a renda de pequenos sítios e chácaras do município.",
+                author: "Redação De Olho em Tudo",
+                date: "Jaraguari - MS",
                 readTime: "3 min de leitura",
-                image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1000&q=80",
-                caption: "Recuperação de estradas vicinais facilita o transporte escolar e o escoamento agrícola.",
+                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80",
+                caption: "Produção de hortaliças e frutas fortalece a economia local de Jaraguari.",
                 content: [
-                    "JARAGUARI (MS) — Produtores da agricultura familiar e pecuaristas de Jaraguari e Bandeirantes estão sendo beneficiados pelo mutirão de patrolamento, cascalhamento e reforma de pontes de madeira.",
-                    "As vias ligam importantes assentamentos e propriedades rurais à rodovia BR-163, garantindo segurança para o transporte escolar e agilidade na entrega de leite e hortaliças.",
-                    "Lideranças rurais destacam que a manutenção preventiva evita prejuízos durante o período chuvoso."
+                    "Associações de pequenos produtores rurais de Jaraguari registraram aumento expressivo na produção de hortaliças, frutas e derivados destinados tanto à alimentação escolar quanto às feiras livres da região.",
+                    "Com apoio de assistência técnica e sistemas de irrigação por gotejamento, as propriedades familiares conseguem manter oferta regular durante todo o ano, gerando emprego e renda no campo."
                 ],
                 comments: []
             },
             {
                 id: 6,
-                city: "Campo Grande",
-                category: "Cidades & Regional",
-                urgent: false,
-                tag: "Campo Grande • Capital MS",
-                title: "Campo Grande amplia atendimento em unidades de saúde e lança pacote de recapeamento em corredores de ônibus",
-                summary: "Prefeitura da Capital anuncia reforço nas escalas médicas das UPAs e obras de mobilidade urbana em bairros da região norte, como Coronel Antonino.",
-                author: "Correspondente Campo Grande",
-                date: "Campo Grande - MS • Hoje",
-                readTime: "3 min de leitura",
-                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1000&q=80",
-                caption: "Investimentos em mobilidade e saúde atendem moradores da região norte de Campo Grande.",
-                content: [
-                    "CAMPO GRANDE (MS) — A Capital sul-mato-grossense iniciou uma nova etapa de recapeamento asfáltico e sinalização viária em importantes corredores comerciais e de transporte coletivo, beneficiando moradores da saída norte, incluindo o bairro Coronel Antonino e adjacências.",
-                    "Paralelamente, a Secretaria Municipal de Saúde reforçou as equipes médicas nas Unidades de Pronto Atendimento (UPAs) para agilizar o acolhimento da população.",
-                    "Acompanhe os destaques da Capital e de todo o Estado diariamente com Adilson Malaquias no programa De Olho em Tudo."
-                ],
-                comments: []
-            },
-            {
-                id: 7,
-                city: "Pedro Gomes",
+                city: "Camapuã",
                 category: "Agropecuária & Agronegócio",
                 urgent: false,
-                tag: "Pedro Gomes & Coxim • Safra",
-                title: "Produtores de Pedro Gomes e Coxim investem em tecnologia de integração lavoura-pecuária para elevar produtividade",
-                summary: "Sistema sustentável recupera pastagens degradadas e aumenta a rentabilidade por hectare na região norte de Mato Grosso do Sul.",
-                author: "Agro & Campo • 87,9 FM",
-                date: "Pedro Gomes - MS • Hoje",
-                readTime: "4 min de leitura",
-                image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1000&q=80",
-                caption: "Integração lavoura-pecuária transforma propriedades rurais em Pedro Gomes e Coxim.",
-                content: [
-                    "PEDRO GOMES (MS) — A adoção do sistema de Integração Lavoura-Pecuária (ILP) vem ganhando espaço nas fazendas de Pedro Gomes e Coxim, combinando o cultivo de grãos com a engorda intensiva de bovinos.",
-                    "De acordo com técnicos rurais da região, o modelo melhora a fertilidade do solo, reduz custos com adubação e garante forragem de qualidade mesmo nos meses mais secos do ano."
-                ],
-                comments: []
-            },
-            {
-                id: 8,
-                city: "Nacional",
-                category: "Economia & Finanças",
-                urgent: false,
-                tag: "Economia, Finanças & Crédito",
-                title: "Mercado financeiro projeta estabilidade nos juros e novas linhas de crédito para pequenos comerciantes e produtores rurais",
-                summary: "Especialistas orientam empreendedores locais sobre planejamento de fluxo de caixa, renegociação de dívidas e oportunidades de investimento.",
-                author: "Economia & Finanças • De Olho em Tudo",
-                date: "Brasil / MS • Hoje",
-                readTime: "4 min de leitura",
-                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1000&q=80",
-                caption: "Planejamento financeiro e acesso ao crédito fortalecem o comércio regional e o agronegócio.",
-                content: [
-                    "BRASÍLIA — O cenário econômico nacional apresenta novas oportunidades de financiamento com taxas diferenciadas para micro e pequenas empresas, além de linhas de custeio para o agronegócio.",
-                    "Analistas financeiros recomendam que comerciantes e prestadores de serviço aproveitem o momento para organizar o capital de giro, evitar endividamento no rotativo e investir na modernização do atendimento ao cliente.",
-                    "Em Mato Grosso do Sul, o desempenho forte das exportações do agro ajuda a manter a economia estadual aquecida."
-                ],
-                comments: []
-            },
-            {
-                id: 9,
-                city: "Nacional",
-                category: "Atualidades & Nacional",
-                urgent: false,
-                tag: "Atualidades • Brasil",
-                title: "Novas regras digitais facilitam emissão de documentos, serviços do INSS e atendimento ao cidadão pelo celular",
-                summary: "Atualização nas plataformas públicas reduz filas presenciais e agiliza consultas de benefícios previdenciários e trabalhistas.",
-                author: "Atualidades • De Olho em Tudo",
-                date: "Brasil • Hoje",
+                tag: "Camapuã • Capital do Bezerro",
+                title: "Leilões de gado de corte em Camapuã movimentam criadores da região norte e confirmam força da pecuária de MS",
+                summary: "Lotes de bezerros e novilhas de alta genética atraem compradores de vários municípios sul-mato-grossenses.",
+                author: "Adilson Malaquias • Redação 87,9",
+                date: "Camapuã - MS",
                 readTime: "3 min de leitura",
-                image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1000&q=80",
-                caption: "Serviços digitais ampliam o acesso do cidadão a documentos e consultas previdenciárias.",
+                image: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1000&q=80",
+                caption: "Camapuã reafirma título de Capital do Bezerro de Qualidade em Mato Grosso do Sul.",
                 content: [
-                    "BRASÍLIA — O cidadão brasileiro passa a contar com novas funcionalidades digitais para solicitar perícias, consultar extratos previdenciários e emitir certidões diretamente pelo smartphone.",
-                    "No programa De Olho em Tudo, Adilson Malaquias reforça o alerta para que os aposentados e pensionistas nunca compartilhem senhas com desconhecidos e busquem sempre canais oficiais ou familiares de confiança."
-                ],
-                comments: []
-            },
-            {
-                id: 10,
-                city: "Coxim",
-                category: "Plantão Policial & Acidentes",
-                urgent: false,
-                tag: "Coxim • Segurança Pública",
-                title: "Polícia Militar intensifica rondas preventivas nos bairros e área comercial de Coxim durante o período noturno",
-                summary: "Operação visa coibir furtos e garantir tranquilidade aos comerciantes e moradores da Capital do Peixe.",
-                author: "Plantão Policial • Coxim",
-                date: "Coxim - MS • Hoje",
-                readTime: "3 min de leitura",
-                image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1000&q=80",
-                caption: "Patrulhamento preventivo reforça a sensação de segurança nos bairros de Coxim.",
-                content: [
-                    "COXIM (MS) — O 5º Batalhão de Polícia Militar de Coxim ampliou o patrulhamento ostensivo nas regiões comerciais e bairros residenciais da cidade.",
-                    "A ação conta com abordagens preventivas e apoio imediato via telefone 190, fortalecendo a parceria entre a polícia e a comunidade coxinense."
+                    "Os leilões presenciais e virtuais realizados em Camapuã (Cabaquan) registraram excelente liquidez e valorização nos lotes de bezerros e matrizes Nelore, confirmando o protagonismo do município na pecuária de cria de Mato Grosso do Sul.",
+                    "Criadores de Coxim, São Gabriel do Oeste, Bandeirantes e Campo Grande participaram das negociações, destacando a qualidade genética e sanitária do rebanho regional."
                 ],
                 comments: []
             }
         ];
 
-        function loadArticles() {
-            try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        // Carrega artigos do localStorage se existirem e tiverem conteúdo válido
+        let articlesData = [];
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].content) {
+                    articlesData = parsed;
+                } else {
+                    articlesData = JSON.parse(JSON.stringify(defaultArticles));
                 }
-            } catch (e) {
-                console.error("Erro ao carregar notícias:", e);
+            } else {
+                articlesData = JSON.parse(JSON.stringify(defaultArticles));
             }
-            return JSON.parse(JSON.stringify(defaultArticles));
+        } catch (e) {
+            articlesData = JSON.parse(JSON.stringify(defaultArticles));
         }
 
         function saveArticlesToStorage() {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(articlesData));
             } catch (e) {
-                console.error("Erro ao salvar notícias:", e);
+                console.warn("Não foi possível salvar no navegador:", e);
             }
         }
 
-        let articlesData = loadArticles();
-
         // ---------------------------------------------------------------------
-        // 2. FILTRAGEM (CIDADE + EDITORIA + BUSCA) E RENDERIZAÇÃO
+        // 2. ESTADO DE FILTROS & RENDERIZAÇÃO DE NOTÍCIAS NA CAPA
         // ---------------------------------------------------------------------
         let currentCategory = "Todas";
         let currentCity = "Todas";
@@ -1192,16 +1459,15 @@
         function renderBreakingTicker() {
             const ticker = document.getElementById("breaking-ticker");
             if (!ticker) return;
-            const urgentNews = articlesData.filter(a => a.urgent);
-            const list = urgentNews.length > 0 ? urgentNews : articlesData.slice(0, 4);
-
-            const itemsHtml = list.map(item => `
-                <span class="cursor-pointer hover:text-radioRed-600 transition" onclick="openArticleModal(${item.id})">
-                    <strong class="text-radioRed-600 uppercase">[${escapeHTML(item.city)}]</strong> ${escapeHTML(item.title)}
-                </span>
-            `).join("");
-
-            ticker.innerHTML = itemsHtml + itemsHtml;
+            const urgentItems = articlesData.filter(a => a.urgent);
+            const list = urgentItems.length > 0 ? urgentItems : articlesData.slice(0, 5);
+            const html = list.map(a => `
+                <button onclick="openArticleModal(${a.id})" class="inline-flex items-center gap-2 hover:text-radioRed-600 transition cursor-pointer">
+                    <span class="font-black text-navy-900 uppercase text-[11px] bg-slate-100 px-2 py-0.5 rounded">[${escapeHTML(a.city)}]</span>
+                    <span class="font-semibold">${escapeHTML(a.title)}</span>
+                </button>
+            `).join(`<span class="text-slate-300">•</span>`);
+            ticker.innerHTML = html + `<span class="text-slate-300">•</span>` + html;
         }
 
         function renderHeroSection() {
@@ -1209,83 +1475,53 @@
             const sideList = document.getElementById("hero-side-list");
             if (!mainCard || !sideList || articlesData.length === 0) return;
 
-            const main = articlesData[0];
-            mainCard.setAttribute("onclick", `openArticleModal(${main.id})`);
+            const mainArt = articlesData[0];
+            mainCard.onclick = () => openArticleModal(mainArt.id);
             mainCard.innerHTML = `
-                <div class="relative h-64 sm:h-80 md:h-[410px] overflow-hidden">
-                    <img src="${main.image}" 
-                         onerror="this.src='https://placehold.co/1200x700/0B192C/FFFFFF?text=De+Olho+em+Tudo'"
-                         alt="${escapeHTML(main.title)}" 
-                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/45 to-transparent"></div>
-                    
+                <div class="relative h-64 sm:h-80 overflow-hidden bg-navy-950">
+                    <img src="${mainArt.image}" alt="${escapeHTML(mainArt.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/20 to-transparent"></div>
                     <div class="absolute top-4 left-4 flex flex-wrap items-center gap-2">
-                        <span class="bg-emerald-600 text-white text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-md shadow">
-                            <i class="fa-solid fa-location-dot mr-1"></i>${escapeHTML(main.city)}
-                        </span>
-                        ${main.urgent ? `<span class="bg-radioRed-600 text-white text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow animate-pulse">URGENTE</span>` : ''}
-                        <span class="bg-navy-950/85 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md border border-white/15">
-                            <i class="fa-regular fa-clock mr-1 text-radioRed-500"></i> ${escapeHTML(main.readTime)}
+                        ${mainArt.urgent ? `<span class="bg-radioRed-600 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow animate-pulse"><i class="fa-solid fa-bolt mr-1"></i>URGENTE</span>` : ''}
+                        <span class="bg-navy-900/90 text-amber-400 border border-amber-400/30 text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md">
+                            ${escapeHTML(mainArt.tag)}
                         </span>
                     </div>
-
-                    <div class="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-                        <span class="text-amber-400 font-extrabold text-xs uppercase tracking-widest block mb-1.5">
-                            ${escapeHTML(main.tag)}
-                        </span>
-                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight group-hover:text-amber-300 transition-colors">
-                            ${escapeHTML(main.title)}
+                    <div class="absolute bottom-4 left-4 right-4 text-white">
+                        <span class="text-xs text-slate-300 font-semibold block mb-1">${escapeHTML(mainArt.date)} • ${escapeHTML(mainArt.readTime)}</span>
+                        <h2 class="font-serif text-xl sm:text-2xl md:text-3xl font-black leading-tight group-hover:text-amber-300 transition">
+                            ${escapeHTML(mainArt.title)}
                         </h2>
                     </div>
                 </div>
-
-                <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-white">
-                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
-                        ${escapeHTML(main.summary)}
+                <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                        ${escapeHTML(mainArt.summary)}
                     </p>
-                    <div class="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-slate-100 text-xs text-slate-500">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-navy-900">${escapeHTML(main.author)}</span>
-                            <span>•</span>
-                            <span>${escapeHTML(main.date)}</span>
-                        </div>
-                        <span class="inline-flex items-center gap-1.5 font-bold text-radioRed-600 group-hover:translate-x-1 transition-transform">
-                            Ler matéria e ouvir <i class="fa-solid fa-arrow-right"></i>
+                    <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                        <span class="text-xs font-bold text-navy-900">${escapeHTML(mainArt.author)}</span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-black text-radioRed-600 group-hover:translate-x-1 transition-transform">
+                            Ler reportagem completa <i class="fa-solid fa-arrow-right"></i>
                         </span>
                     </div>
                 </div>
             `;
 
-            const sideItems = articlesData.slice(1, 3);
-            sideList.innerHTML = sideItems.map((item, index) => `
-                <article onclick="openArticleModal(${item.id})" class="group cursor-pointer flex gap-3.5 items-start">
-                    <img src="${item.image}" 
-                         onerror="this.src='https://placehold.co/300x200/0B192C/FFFFFF?text=Plantao+87,9'"
-                         alt="${escapeHTML(item.title)}" 
-                         class="w-20 h-20 rounded-xl object-cover shrink-0 group-hover:opacity-90 transition">
-                    <div>
-                        <div class="flex flex-wrap items-center gap-1.5 mb-1">
-                            <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-radioRed-600 text-white">
-                                ${escapeHTML(item.city)}
-                            </span>
-                            <span class="text-[10px] font-bold text-slate-500">${escapeHTML(item.category)}</span>
+            const sideItems = articlesData.slice(1, 5);
+            sideList.innerHTML = sideItems.map(item => `
+                <article onclick="openArticleModal(${item.id})" class="group cursor-pointer flex items-start gap-3 pb-3.5 border-b border-slate-100 last:border-b-0 last:pb-0">
+                    <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-20 h-16 rounded-xl object-cover shrink-0 bg-slate-200 group-hover:opacity-90 transition">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <span class="text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-navy-900 text-amber-400">${escapeHTML(item.city)}</span>
+                            ${item.urgent ? `<span class="text-[10px] font-black uppercase text-radioRed-600">• Plantão</span>` : ''}
                         </div>
-                        <h4 class="text-sm font-bold text-navy-900 leading-snug group-hover:text-radioRed-600 transition line-clamp-2">
+                        <h4 class="text-xs sm:text-sm font-extrabold text-navy-900 leading-snug line-clamp-2 group-hover:text-radioRed-600 transition">
                             ${escapeHTML(item.title)}
                         </h4>
-                        <span class="text-[11px] text-slate-400 mt-1 block">${escapeHTML(item.date)}</span>
                     </div>
                 </article>
-                ${index === 0 && sideItems.length > 1 ? '<hr class="border-slate-100">' : ''}
             `).join("");
-        }
-
-        function getCategoryBadgeStyle(category) {
-            if (category.includes("Policial") || category.includes("Acidentes")) return "bg-radioRed-600 text-white";
-            if (category.includes("Agro")) return "bg-emerald-600 text-white";
-            if (category.includes("Economia")) return "bg-amber-500 text-navy-950";
-            if (category.includes("Cidades")) return "bg-sky-600 text-white";
-            return "bg-navy-800 text-white";
         }
 
         function renderNews() {
@@ -1295,39 +1531,43 @@
             const grid = document.getElementById("news-grid");
             const emptyState = document.getElementById("empty-state");
             const counter = document.getElementById("news-counter");
-            const filterBanner = document.getElementById("active-filter-banner");
+            const banner = document.getElementById("active-filter-banner");
             const filterLabel = document.getElementById("filter-label");
             const heroSection = document.getElementById("hero-section");
 
-            const filtered = articlesData.filter(article => {
-                const matchesCat = currentCategory === "Todas" || article.category === currentCategory;
-                const matchesCity = currentCity === "Todas" || article.city === currentCity;
-                const searchLower = currentSearch.toLowerCase().trim();
-                const matchesSearch = !searchLower ||
-                    article.title.toLowerCase().includes(searchLower) ||
-                    article.summary.toLowerCase().includes(searchLower) ||
-                    article.tag.toLowerCase().includes(searchLower) ||
-                    article.city.toLowerCase().includes(searchLower) ||
-                    article.category.toLowerCase().includes(searchLower);
-                return matchesCat && matchesCity && matchesSearch;
-            });
-
-            const hasActiveFilter = currentCategory !== "Todas" || currentCity !== "Todas" || currentSearch.trim() !== "";
-
-            if (hasActiveFilter) {
-                filterBanner.classList.remove("hidden");
-                const parts = [];
-                if (currentCity !== "Todas") parts.push(`Cidade: ${currentCity}`);
-                if (currentCategory !== "Todas") parts.push(`Editoria: ${currentCategory}`);
-                if (currentSearch.trim() !== "") parts.push(`Busca: "${currentSearch}"`);
-                filterLabel.textContent = parts.join(" • ");
-                heroSection.classList.add("hidden");
-            } else {
-                filterBanner.classList.add("hidden");
-                heroSection.classList.remove("hidden");
+            const isFiltering = currentCategory !== "Todas" || currentCity !== "Todas" || currentSearch.trim() !== "";
+            if (heroSection) {
+                heroSection.classList.toggle("hidden", isFiltering);
             }
 
-            counter.textContent = `Exibindo ${filtered.length} ${filtered.length === 1 ? 'reportagem' : 'reportagens'}`;
+            if (banner && filterLabel) {
+                if (isFiltering) {
+                    banner.classList.remove("hidden");
+                    const parts = [];
+                    if (currentCity !== "Todas") parts.push(`Cidade: ${currentCity}`);
+                    if (currentCategory !== "Todas") parts.push(`Editoria: ${currentCategory}`);
+                    if (currentSearch.trim() !== "") parts.push(`Busca: "${currentSearch.trim()}"`);
+                    filterLabel.textContent = parts.join(" • ");
+                } else {
+                    banner.classList.add("hidden");
+                }
+            }
+
+            const filtered = articlesData.filter(art => {
+                const matchCat = currentCategory === "Todas" || art.category === currentCategory;
+                const matchCity = currentCity === "Todas" || art.city === currentCity;
+                const q = currentSearch.trim().toLowerCase();
+                const matchSearch = !q ||
+                    art.title.toLowerCase().includes(q) ||
+                    art.summary.toLowerCase().includes(q) ||
+                    art.city.toLowerCase().includes(q) ||
+                    art.content.join(" ").toLowerCase().includes(q);
+                return matchCat && matchCity && matchSearch;
+            });
+
+            if (counter) {
+                counter.textContent = `Exibindo ${filtered.length} ${filtered.length === 1 ? 'reportagem' : 'reportagens'}`;
+            }
 
             if (filtered.length === 0) {
                 grid.innerHTML = "";
@@ -1336,56 +1576,203 @@
             }
 
             emptyState.classList.add("hidden");
+            grid.innerHTML = filtered.map(art => `
+                <article onclick="openArticleModal(${art.id})" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-xl border border-slate-200/80 transition-all duration-300 flex flex-col">
+                    <div class="relative h-48 overflow-hidden bg-slate-200">
+                        <img src="${art.image}" alt="${escapeHTML(art.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                            ${art.urgent ? `<span class="bg-radioRed-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded shadow">URGENTE</span>` : ''}
+                            <span class="bg-navy-900/90 text-white text-[10px] font-bold uppercase px-2.5 py-0.5 rounded">
+                                ${escapeHTML(art.city)}
+                            </span>
+                        </div>
+                        <button onclick="event.stopPropagation(); deleteArticle(${art.id})" title="Remover notícia" class="opacity-0 group-hover:opacity-100 absolute top-3 right-3 w-7 h-7 rounded-lg bg-navy-950/80 hover:bg-radioRed-600 text-white text-xs flex items-center justify-center transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
 
-            grid.innerHTML = filtered.map(article => {
-                const catBadge = getCategoryBadgeStyle(article.category);
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] font-bold text-radioRed-600 uppercase tracking-wider mb-1.5">
+                                ${escapeHTML(art.tag)}
+                            </div>
+                            <h3 class="font-serif text-base sm:text-lg font-black text-navy-900 leading-snug mb-2 group-hover:text-radioRed-600 transition">
+                                ${escapeHTML(art.title)}
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed mb-4">
+                                ${escapeHTML(art.summary)}
+                            </p>
+                        </div>
 
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px]">
+                            <span class="text-slate-400 font-medium">${escapeHTML(art.readTime)}</span>
+                            <span class="font-black text-navy-900 group-hover:text-radioRed-600 flex items-center gap-1 transition">
+                                Ler matéria <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        // ---------------------------------------------------------------------
+        // 3. INTEGRAÇÃO FACEBOOK LIVE, VÍDEOS, REELS & POSTS EMBUTIDOS
+        // ---------------------------------------------------------------------
+        const FB_LIVE_STORAGE_KEY = "de_olho_em_tudo_fb_live_url_v3";
+        const DEFAULT_FB_LIVE_URL = "https://www.facebook.com/share/v/1CogAihNo8/";
+        let isFbBoxExpanded = true;
+        let showAllEmbeddedPosts = false;
+
+        const facebookOfficialPosts = [
+            { label: "Destaque #1 • Adilson & Andreia", url: "https://www.facebook.com/share/p/19vJkiAEFe/", isPost: true },
+            { label: "Reportagem #2 • Regional MS", url: "https://www.facebook.com/share/p/1PbDwmYtxx/", isPost: true },
+            { label: "Boletim #3 • De Olho em Tudo", url: "https://www.facebook.com/share/p/1Hxq95umeB/", isPost: true },
+            { label: "Plantão #4 • Notícia Quente", url: "https://www.facebook.com/share/p/1DvmP99hgy/", isPost: true },
+            { label: "Cobertura #5 • Mato Grosso do Sul", url: "https://www.facebook.com/share/p/1L1KRaAk4S/", isPost: true },
+            { label: "Informação #6 • FM 87,9", url: "https://www.facebook.com/share/p/19okBuVdid/", isPost: true },
+            { label: "Última Hora #7 • Comunidade", url: "https://www.facebook.com/share/p/1E97eXNMAp/", isPost: true },
+            { label: "Publicação Oficial #8", url: "https://www.facebook.com/share/1A8L64tUPW/", isPost: false },
+            { label: "Publicação Oficial #9", url: "https://www.facebook.com/share/1G8hRvELNU/", isPost: false },
+            { label: "Publicação Oficial #10", url: "https://www.facebook.com/share/1FWHccq3bT/", isPost: false },
+            { label: "Publicação Oficial #11", url: "https://www.facebook.com/share/18yAseboGu/", isPost: false },
+            { label: "Publicação Oficial #12", url: "https://www.facebook.com/share/1E1JbsYwHN/", isPost: false },
+            { label: "Publicação Oficial #13", url: "https://www.facebook.com/share/1G2HE6czgg/", isPost: false }
+        ];
+
+        function getSavedFacebookLiveUrl() {
+            const saved = localStorage.getItem(FB_LIVE_STORAGE_KEY);
+            return saved !== null ? saved : DEFAULT_FB_LIVE_URL;
+        }
+
+        function switchFacebookPlayerVideo(videoUrl, labelText) {
+            localStorage.setItem(FB_LIVE_STORAGE_KEY, videoUrl);
+            const input = document.getElementById("fb-live-input");
+            if (input) input.value = videoUrl;
+            renderFacebookLivePlayer();
+            const section = document.getElementById("facebook-live-section");
+            if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+            showToast(`Carregando no player: ${labelText}`);
+        }
+
+        function toggleAllEmbeddedPosts() {
+            showAllEmbeddedPosts = !showAllEmbeddedPosts;
+            const btn = document.getElementById("toggle-all-posts-btn");
+            if (btn) {
+                btn.innerHTML = showAllEmbeddedPosts
+                    ? `<i class="fa-solid fa-compress mr-1"></i> Mostrar Apenas os 3 Principais`
+                    : `<i class="fa-solid fa-layer-group mr-1"></i> Mostrar Todos os 13 Posts`;
+            }
+            renderFacebookPostsGrid();
+        }
+
+        function renderFacebookPostsGrid() {
+            const grid = document.getElementById("fb-posts-links-grid");
+            if (!grid) return;
+
+            const itemsToShow = showAllEmbeddedPosts ? facebookOfficialPosts : facebookOfficialPosts.slice(0, 3);
+
+            grid.innerHTML = itemsToShow.map(item => {
+                const encoded = encodeURIComponent(item.url);
                 return `
-                    <article onclick="openArticleModal(${article.id})" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/80 transition-all duration-300 flex flex-col relative">
-                        <div class="relative h-48 overflow-hidden bg-slate-200">
-                            <img src="${article.image}" 
-                                 onerror="this.src='https://placehold.co/800x500/0B192C/FFFFFF?text=De+Olho+em+Tudo'"
-                                 alt="${escapeHTML(article.title)}" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5">
-                                <div class="flex flex-wrap items-center gap-1.5">
-                                    <span class="bg-navy-950/90 text-amber-400 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded shadow-sm">
-                                        <i class="fa-solid fa-location-dot mr-1"></i>${escapeHTML(article.city)}
-                                    </span>
-                                    <span class="${catBadge} text-[10px] font-extrabold uppercase px-2 py-1 rounded">
-                                        ${escapeHTML(article.category.split('&')[0].trim())}
-                                    </span>
-                                </div>
-                                ${article.urgent ? `<span class="bg-radioRed-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow">URGENTE</span>` : ''}
-                            </div>
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-700 flex flex-col">
+                        <div class="bg-navy-900 px-3 py-2 flex items-center justify-between border-b border-slate-800">
+                            <span class="text-[11px] font-extrabold text-amber-400 truncate flex items-center gap-1.5">
+                                <i class="fa-brands fa-facebook text-blue-400"></i> ${escapeHTML(item.label)}
+                            </span>
+                            <button onclick="switchFacebookPlayerVideo('${item.url}', '${escapeHTML(item.label)}')" class="text-[10px] font-bold bg-blue-600 hover:bg-blue-500 text-white px-2 py-0.5 rounded transition shrink-0" title="Ampliar no player principal">
+                                Ampliar
+                            </button>
                         </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-base sm:text-lg font-extrabold text-navy-900 leading-snug mb-2 group-hover:text-radioRed-600 transition-colors">
-                                    ${escapeHTML(article.title)}
-                                </h3>
-                                <p class="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed mb-4">
-                                    ${escapeHTML(article.summary)}
-                                </p>
-                            </div>
-                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                                <span>${escapeHTML(article.date)}</span>
-                                <div class="flex items-center gap-2">
-                                    <button type="button" onclick="event.stopPropagation(); openEditorModal(${article.id})" class="text-slate-400 hover:text-amber-600 px-1.5 py-0.5 rounded" title="Editar notícia">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button type="button" onclick="event.stopPropagation(); deleteArticle(${article.id})" class="text-slate-400 hover:text-radioRed-600 px-1.5 py-0.5 rounded" title="Excluir notícia">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                    <span class="font-bold text-navy-900 group-hover:text-radioRed-600 flex items-center gap-1 transition">
-                                        Ler <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                                    </span>
-                                </div>
-                            </div>
+                        <div class="w-full bg-slate-100 h-[360px] overflow-hidden">
+                            <iframe 
+                                src="https://www.facebook.com/plugins/post.php?href=${encoded}&show_text=true&width=350" 
+                                class="w-full h-full border-0"
+                                scrolling="yes" 
+                                frameborder="0" 
+                                allowfullscreen="true" 
+                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                            </iframe>
                         </div>
-                    </article>
+                    </div>
                 `;
             }).join("");
+        }
+
+        function toggleFbConfigPanel() {
+            const panel = document.getElementById("fb-config-panel");
+            const input = document.getElementById("fb-live-input");
+            panel.classList.toggle("hidden");
+            if (!panel.classList.contains("hidden")) {
+                input.value = getSavedFacebookLiveUrl();
+                input.focus();
+            }
+        }
+
+        function toggleFacebookLiveBox() {
+            const body = document.getElementById("fb-player-body");
+            const icon = document.getElementById("fb-collapse-icon");
+            isFbBoxExpanded = !isFbBoxExpanded;
+            body.classList.toggle("hidden", !isFbBoxExpanded);
+            icon.className = isFbBoxExpanded ? "fa-solid fa-chevron-up text-xs" : "fa-solid fa-chevron-down text-xs";
+        }
+
+        function saveFacebookLiveUrl(e) {
+            e.preventDefault();
+            const url = document.getElementById("fb-live-input").value.trim();
+            if (!url) return;
+            localStorage.setItem(FB_LIVE_STORAGE_KEY, url);
+            document.getElementById("fb-config-panel").classList.add("hidden");
+            renderFacebookLivePlayer();
+            showToast("Transmissão do Facebook colocada no ar no site!");
+        }
+
+        function clearFacebookLiveUrl() {
+            localStorage.setItem(FB_LIVE_STORAGE_KEY, "");
+            document.getElementById("fb-live-input").value = "";
+            renderFacebookLivePlayer();
+            showToast("Player do Facebook limpo.");
+        }
+
+        function renderFacebookLivePlayer() {
+            const container = document.getElementById("fb-embed-container");
+            if (!container) return;
+
+            const savedUrl = getSavedFacebookLiveUrl();
+            const encodedUrl = encodeURIComponent(savedUrl || DEFAULT_FB_LIVE_URL);
+            const activeHref = savedUrl || DEFAULT_FB_LIVE_URL;
+            const isVideoOrReel = activeHref.includes("/v/") || activeHref.includes("/r/") || activeHref.includes("/videos/");
+            const pluginEndpoint = isVideoOrReel
+                ? `https://www.facebook.com/plugins/video.php?href=${encodedUrl}&show_text=false&width=720&autoplay=false`
+                : `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=720`;
+
+            container.innerHTML = `
+                <div class="w-full max-w-3xl mx-auto">
+                    <div class="aspect-video w-full bg-black rounded-xl overflow-hidden border border-slate-700 shadow-2xl">
+                        <iframe 
+                            src="${pluginEndpoint}" 
+                            class="w-full h-full border-0"
+                            scrolling="no" 
+                            frameborder="0" 
+                            allowfullscreen="true" 
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                        </iframe>
+                    </div>
+                    <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Transmitindo do Facebook Oficial • <strong>Adilson Malaquias / De Olho em Tudo</strong>
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <button onclick="toggleFbConfigPanel()" class="text-amber-400 hover:underline font-bold">
+                                <i class="fa-solid fa-rotate mr-1"></i> Trocar Vídeo / Live
+                            </button>
+                            <a href="${escapeHTML(activeHref)}" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline font-bold">
+                                Abrir no Facebook <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function filterByCategory(category) {
@@ -1439,11 +1826,11 @@
         }
 
         // ---------------------------------------------------------------------
-        // 3. PAINEL DA REDAÇÃO (PUBLICAR, EDITAR E EXCLUIR NOTÍCIAS)
+        // 4. PAINEL DA REDAÇÃO (PUBLICAR, EDITAR E EXCLUIR NOTÍCIAS)
         // ---------------------------------------------------------------------
         function getDefaultImageForCategory(category) {
             if (category.includes("Policial") || category.includes("Acidentes")) {
-                return "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=1000&q=80";
+                return "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=1000&q=80";
             }
             if (category.includes("Agro")) {
                 return "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80";
@@ -1481,7 +1868,7 @@
             } else {
                 titleHeader.textContent = "Publicar Notícia Quente • Redação";
                 idInput.value = "";
-                cityInput.value = currentCity !== "Todas" ? currentCity : "Coxim";
+                cityInput.value = currentCity !== "Todas" ? currentCity : "Campo Grande";
                 catInput.value = currentCategory !== "Todas" ? currentCategory : "Plantão Policial & Acidentes";
                 urgentInput.checked = true;
                 titleInput.value = "";
@@ -1575,7 +1962,7 @@
             articlesData = JSON.parse(JSON.stringify(defaultArticles));
             saveArticlesToStorage();
             resetFilters();
-            showToast("Notícias originais da região restauradas!");
+            showToast("Notícias originais restauradas com textos completos!");
         }
 
         function editCurrentModalArticle() {
@@ -1586,7 +1973,7 @@
         }
 
         // ---------------------------------------------------------------------
-        // 4. PLAYER DE RÁDIO COM WEB AUDIO API + STATUS DINÂMICO DE HORÁRIO
+        // 5. PLAYER DE RÁDIO & RELÓGIO
         // ---------------------------------------------------------------------
         let isRadioPlaying = false;
         let audioCtx = null;
@@ -1641,14 +2028,14 @@
                 btnIcon.classList.remove("fa-play", "ml-0.5");
                 btnIcon.classList.add("fa-pause");
                 eq.classList.add("playing");
-                statusText.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="text-emerald-300 font-semibold">Áudio estúdio ativo • Clique em "AO VIVO 87,9 FM" para o sinal oficial</span>`;
+                statusText.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="text-emerald-300 font-semibold">Áudio estúdio ativo • Clique em "RÁDIO 87,9" para streaming ao vivo</span>`;
                 playStudioSound();
-                showToast("Vinheta estúdio ativada! Para ouvir a programação 24h, clique em AO VIVO 87,9 FM.");
+                showToast("Vinheta estúdio ativada! Clique em RÁDIO 87,9 para ouvir a programação ao vivo.");
             } else {
                 btnIcon.classList.remove("fa-pause");
                 btnIcon.classList.add("fa-play", "ml-0.5");
                 eq.classList.remove("playing");
-                statusText.innerHTML = `<i class="fa-solid fa-headphones text-radioRed-500"></i> <span>Clique no Play (áudio estúdio) ou acesse o streaming oficial</span>`;
+                statusText.innerHTML = `<i class="fa-brands fa-facebook text-sky-400"></i> <span>Assista as Lives e Vídeos do Facebook direto no site ou leia as notícias abaixo</span>`;
             }
         }
 
@@ -1709,7 +2096,7 @@
         }
 
         // ---------------------------------------------------------------------
-        // 5. MODAL DE LEITURA + NARRAÇÃO PT-BR + COMENTÁRIOS DOS OUVINTES
+        // 6. MODAL DE LEITURA COMPLETA + NARRAÇÃO PT-BR + COMENTÁRIOS
         // ---------------------------------------------------------------------
         let isArticleAudioPlaying = false;
 
@@ -1732,7 +2119,10 @@
             document.getElementById("modal-image").src = article.image;
             document.getElementById("modal-caption").textContent = article.caption;
 
-            document.getElementById("modal-body").innerHTML = article.content.map(p => `<p>${escapeHTML(p)}</p>`).join("");
+            const paragraphs = Array.isArray(article.content) && article.content.length > 0
+                ? article.content
+                : [article.summary];
+            document.getElementById("modal-body").innerHTML = paragraphs.map(p => `<p>${escapeHTML(p)}</p>`).join("");
             renderArticleComments();
 
             const modal = document.getElementById("article-modal");
@@ -1817,7 +2207,7 @@
 
         function shareWhatsApp() {
             if (!activeModalArticle) return;
-            const text = encodeURIComponent(`*De Olho em Tudo • Adilson Malaquias (FM Pantaneira 87,9)*\n[${activeModalArticle.city}] ${activeModalArticle.title}\nOuça de seg a sex, das 08h30 às 10h00 em fmpantaneira.com.br`);
+            const text = encodeURIComponent(`*De Olho em Tudo • Adilson Malaquias (FM Pantaneira 87,9)*\n[${activeModalArticle.city}] ${activeModalArticle.title}\n\n${activeModalArticle.summary}`);
             window.open(`https://wa.me/?text=${text}`, "_blank");
         }
 
@@ -1834,7 +2224,7 @@
         }
 
         // ---------------------------------------------------------------------
-        // 6. FORMULÁRIO ALÔ OUVINTE / DENÚNCIA (WHATSAPP OU E-MAIL OFICIAL)
+        // 7. FORMULÁRIO ALÔ OUVINTE & ENQUETE
         // ---------------------------------------------------------------------
         function setSubmitChannel(channel) {
             selectedSubmitChannel = channel;
@@ -1862,14 +2252,11 @@
             document.getElementById("quick-listener-form").reset();
         }
 
-        // ---------------------------------------------------------------------
-        // 7. ENQUETE DO OUVINTE
-        // ---------------------------------------------------------------------
         const pollData = [
-            { id: 1, label: "Segurança e obras de duplicação na rodovia BR-163", votes: 412 },
-            { id: 2, label: "Infraestrutura e saúde nos bairros de Coxim e Região Norte", votes: 298 },
-            { id: 3, label: "Incentivos e cotações da agropecuária em MS", votes: 184 },
-            { id: 4, label: "Preservação do Rio Taquari e turismo regional", votes: 115 }
+            { id: 1, label: "Segurança pública e combate à violência contra mulheres e crianças", votes: 468 },
+            { id: 2, label: "Drenagem e prevenção contra alagamentos em Campo Grande", votes: 315 },
+            { id: 3, label: "Obras de duplicação e segurança na rodovia BR-163", votes: 194 },
+            { id: 4, label: "Infraestrutura nos bairros de Coxim e Região Norte", votes: 142 }
         ];
         let hasVotedPoll = false;
         let selectedPollId = null;
@@ -1958,7 +2345,12 @@
             if (e.target.id === "editor-modal") closeEditorModal();
         });
 
-        // Exposição explícita no escopo global window
+        window.toggleAllEmbeddedPosts = toggleAllEmbeddedPosts;
+        window.switchFacebookPlayerVideo = switchFacebookPlayerVideo;
+        window.toggleFbConfigPanel = toggleFbConfigPanel;
+        window.toggleFacebookLiveBox = toggleFacebookLiveBox;
+        window.saveFacebookLiveUrl = saveFacebookLiveUrl;
+        window.clearFacebookLiveUrl = clearFacebookLiveUrl;
         window.filterByCity = filterByCity;
         window.filterByCategory = filterByCategory;
         window.handleSearch = handleSearch;
@@ -1983,8 +2375,10 @@
         window.sendListenerDirect = sendListenerDirect;
         window.votePoll = votePoll;
 
-        // Inicialização imediata e segura
+        // Inicialização imediata
         renderNews();
+        renderFacebookPostsGrid();
+        renderFacebookLivePlayer();
         renderPoll();
         updateLiveClockAndSchedule();
         setInterval(updateLiveClockAndSchedule, 15000);
